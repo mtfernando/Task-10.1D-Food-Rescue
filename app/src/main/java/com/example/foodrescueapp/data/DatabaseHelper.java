@@ -17,7 +17,7 @@ import com.example.foodrescueapp.util.Util;
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public DatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+    public DatabaseHelper(@Nullable Context context) {
         super(context, Util.DATABASE_NAME, factory, Util.DATABASE_VERSION);
     }
 
@@ -155,5 +155,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         foodItem.setQuantity(c.getString(c.getColumnIndex(Util.FOOD_QUANTITY)));
 
         return foodItem;
+    }
+
+    //Auxiliary Functions
+    //Checks username and password
+    public boolean login(String username, String password){
+
+        SQLiteDatabase db = getReadableDatabase();
+        User user = getUser(username);
+
+
+        if (user.getPassword().equals(password)){
+            return true;
+        }
+
+        else{
+            return false;
+        }
     }
 }
