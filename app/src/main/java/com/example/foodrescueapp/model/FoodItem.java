@@ -20,6 +20,10 @@ public class FoodItem {
         this.imageRes = imageRes;
     }
 
+    public FoodItem(){
+
+    }
+
     public String getTitle() {
         return title;
     }

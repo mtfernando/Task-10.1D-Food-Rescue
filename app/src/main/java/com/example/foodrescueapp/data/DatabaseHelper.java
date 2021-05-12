@@ -71,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Returns the User object for a given username
     public User getUser(String username){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         //Fetching from USER_TABLE_NAME for a given USERNAME
         String FETCH_USER = "SELECT * FROM " + Util.USER_TABLE_NAME +
@@ -92,5 +92,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         user.setPassword(c.getString(c.getColumnIndex(Util.PASSWORD)));
 
         return user;
+    }
+
+    //Returns the foodItem for a given foodID
+    public FoodItem getFoodItem(Integer foodID){
+        SQLiteDatabase db = getWritableDatabase();
+
+        String FETCH_FOOD_ITEM = "SELECT * FROM" + Util.FOOD_TABLE_NAME + " WHERE " + Util.FOOD_ID + " = " + foodID;
+
+        Cursor c = db.rawQuery(FETCH_FOOD_ITEM, null);
+
+        if(c!=null) c.moveToFirst();
+
+        //Creating FoodItem object from cursor
+        FoodItem foodItem = new FoodItem();
+        foodItem.setFoodID(c.getInt(c.getColumnIndex(Util.FOOD_ID)));
+        foodItem.setTitle(c.getString(c.getColumnIndex(Util.FOOD_TITLE)));
+        foodItem.setDescription(c.getString(c.getColumnIndex(Util.FOOD_DESCRIPTION)));
+        foodItem.setImageRes(c.getString(c.getColumnIndex(Util.FOOD_IMAGE_RES)));
+        foodItem.setLocation(c.getString(c.getColumnIndex(Util.FOOD_LOCATION)));
+        foodItem.setPickupDate(c.getString(c.getColumnIndex(Util.FOOD_DATE)));
+        foodItem.setPickupTime(c.getString(c.getColumnIndex(Util.FOOD_PICKUP_TIME)));
+        foodItem.setQuantity(c.getString(c.getColumnIndex(Util.FOOD_QUANTITY)));
+        
+        return foodItem;
     }
 }
