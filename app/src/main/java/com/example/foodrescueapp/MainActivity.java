@@ -2,6 +2,7 @@ package com.example.foodrescueapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
@@ -39,6 +40,20 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(MainActivity.this, "Error! Incorrect Credentials", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signupIntent = new Intent(MainActivity.this, SignupActivity.class);
+
+                //Autofill username if the user already tried to login but doesn't have an account.
+                if(usernameEditText.getText().toString()!=null){
+                    signupIntent.putExtra("username", usernameEditText.getText().toString());
+                }
+
+                startActivity(signupIntent);
             }
         });
     }

@@ -8,6 +8,7 @@ public class User {
         this.username = username;
         this.phone = phone;
         this.address = address;
+        this.password = password;
     }
 
     public User(){
