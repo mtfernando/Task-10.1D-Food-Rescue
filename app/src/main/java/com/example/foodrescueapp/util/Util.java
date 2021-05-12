@@ -12,10 +12,10 @@ public class Util {
     public static final String ADDRESS = "address";
     public static final String NAME = "name";
 
-    public static final String FOOD_ID = "food_id";
+
     public static final String FOOD_TITLE = "food_title";
     public static final String FOOD_DESCRIPTION = "food_description";
-    public static final String FOOD_DATE = "food_date";
+    public static final String FOOD_DATE = "food_pickup_date";
     public static final String FOOD_PICKUP_TIME = "food_pickup_time";
     public static final String FOOD_QUANTITY = "food_quantity";
     public static final String FOOD_LOCATION = "food_location";
