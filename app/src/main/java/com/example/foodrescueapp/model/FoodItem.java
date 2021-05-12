@@ -1,15 +1,22 @@
 package com.example.foodrescueapp.model;
 
 public class FoodItem {
-    private String title, description, pickupDate, pickupTime, location, quantity;
+    private String title;
+    private String description;
+    private String pickupDate;
+    private String pickupTime;
+    private String location;
+    private String quantity;
+    private String imageRes;
 
-    public FoodItem(String title, String description, String pickupDate, String pickupTime, String location, String quantity) {
+    public FoodItem(String title, String description, String pickupDate, String pickupTime, String location, String quantity, String imageRes) {
         this.title = title;
         this.description = description;
         this.pickupDate = pickupDate;
         this.pickupTime = pickupTime;
         this.location = location;
         this.quantity = quantity;
+        this.imageRes = imageRes;
     }
 
     public String getTitle() {
@@ -58,5 +65,13 @@ public class FoodItem {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImageRes() {
+        return imageRes;
+    }
+
+    public void setImageRes(String imageRes) {
+        this.imageRes = imageRes;
     }
 }
