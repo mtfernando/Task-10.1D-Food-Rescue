@@ -122,6 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (c!=null) c.moveToFirst();
 
+        else return new User();
         //Creating new user object from cursor
         User user = new User();
         user.setUsername(c.getString(c.getColumnIndex(Util.USERNAME)));
