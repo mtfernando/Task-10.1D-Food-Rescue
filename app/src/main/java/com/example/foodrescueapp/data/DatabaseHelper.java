@@ -52,11 +52,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    //Creating new FoodItem. Entering into food table and users_food table
     public long createFoodItem(User user, FoodItem foodItem){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Util.USERNAME, user.getUsername());
         values.put(Util.FOOD_TITLE, foodItem.getTitle());
         values.put(Util.FOOD_DESCRIPTION, foodItem.getDescription());
         values.put(Util.FOOD_DATE, foodItem.getPickupDate());
@@ -66,9 +66,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Inserting row into foodItem table
         long result = db.insert(Util.FOOD_TABLE_NAME, null, values);
+
+        //Inserting row into linking table users_food
+        long linkingResult = createUserFoodEntry(user, foodItem);
+
         return  result;
     }
 
+    //Inserts a row in the linking table USER_FOOD_TABLE
+    public long createUserFoodEntry(User user, FoodItem foodItem){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Util.USERNAME, user.getUsername());
+        values.put(Util.FOOD_ID, foodItem.getFoodID());
+
+        //Inserting row into users_food table
+        long result = db.insert(Util.USER_FOOD_TABLE_NAME, null, values);
+        return result;
+    }
+
+    //Returns a list of foodID for a given username from user_food table
+    public String[] getFoodIDList(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Fetching from USER_FOOD_TABLE
+        String FETCH_FOOD_ID = "SELECT * FROM" + Util.USER_FOOD_TABLE_NAME + " WHERE "
+                + Util.USERNAME + " = " + username;
+
+        Cursor c = db.rawQuery(FETCH_FOOD_ID, null);
+
+        String[] foodIDArray = new String[c.getCount()];
+        Integer i = 0;
+
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            foodIDArray[i] = c.getString(c.getColumnIndex(Util.FOOD_ID));
+            i++;
+            c.moveToNext();
+        }
+
+        return foodIDArray;
+    }
     //Returns the User object for a given username
     public User getUser(String username){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -114,7 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         foodItem.setPickupDate(c.getString(c.getColumnIndex(Util.FOOD_DATE)));
         foodItem.setPickupTime(c.getString(c.getColumnIndex(Util.FOOD_PICKUP_TIME)));
         foodItem.setQuantity(c.getString(c.getColumnIndex(Util.FOOD_QUANTITY)));
-        
+
         return foodItem;
     }
 }

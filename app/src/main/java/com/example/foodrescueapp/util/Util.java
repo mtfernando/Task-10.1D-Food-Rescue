@@ -32,15 +32,15 @@ public class Util {
 
     // All QUERIES HERE
 
-    //Creating the foodItem table
-    public static final String CREATE_FOOD_TABLE = "CREATE TABLE " + FOOD_TABLE_NAME + "("
-            + FOOD_ID + "INTEGER PRIMARY KEY AUTO INCREMENT," + FOOD_TITLE + "TEXT," + FOOD_DESCRIPTION + "TEXT," + FOOD_IMAGE_RES + "TEXT,"+ FOOD_DATE + "TEXT"
-            + FOOD_PICKUP_TIME + "TEXT," + FOOD_QUANTITY + "TEXT," + FOOD_LOCATION + "TEXT)";
-
     //Creating the users table
     public static final String CREATE_USER_TABLE = "CREATE TABLE " + USER_TABLE_NAME + "("
             + USERNAME + "TEXT PRIMARY KEY, " + NAME + "TEXT," + PASSWORD + "TEXT,"
             + PHONE + "TEXT," + ADDRESS + "TEXT)";
+
+    //Creating the foodItem table
+    public static final String CREATE_FOOD_TABLE = "CREATE TABLE " + FOOD_TABLE_NAME + "("
+            + FOOD_ID + "INTEGER PRIMARY KEY AUTO INCREMENT," + FOOD_TITLE + "TEXT," + FOOD_DESCRIPTION + "TEXT," + FOOD_IMAGE_RES + "TEXT,"+ FOOD_DATE + "TEXT"
+            + FOOD_PICKUP_TIME + "TEXT," + FOOD_QUANTITY + "TEXT," + FOOD_LOCATION + "TEXT)";
 
     //Creating the users_food table
     public static final String CREATE_USER_FOOD_TABLE = "CREATE TABLE " + USER_FOOD_TABLE_NAME + "(" + USERNAME + "TEXT,"
