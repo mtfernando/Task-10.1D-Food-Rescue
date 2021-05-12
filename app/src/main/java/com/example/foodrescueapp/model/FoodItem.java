@@ -8,6 +8,7 @@ public class FoodItem {
     private String location;
     private String quantity;
     private String imageRes;
+    private Integer foodID;
 
     public FoodItem(String title, String description, String pickupDate, String pickupTime, String location, String quantity, String imageRes) {
         this.title = title;
@@ -73,5 +74,13 @@ public class FoodItem {
 
     public void setImageRes(String imageRes) {
         this.imageRes = imageRes;
+    }
+
+    public Integer getFoodID() {
+        return foodID;
+    }
+
+    public void setFoodID(Integer foodID) {
+        this.foodID = foodID;
     }
 }

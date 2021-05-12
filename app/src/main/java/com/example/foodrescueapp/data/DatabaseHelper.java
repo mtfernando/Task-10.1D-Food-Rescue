@@ -2,15 +2,19 @@ package com.example.foodrescueapp.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.icu.util.UniversalTimeScale;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.example.foodrescueapp.model.FoodItem;
 import com.example.foodrescueapp.model.User;
 import com.example.foodrescueapp.util.Util;
+
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -22,6 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Executing SQL from Util class
         db.execSQL(Util.CREATE_USER_TABLE);
         db.execSQL(Util.CREATE_FOOD_TABLE);
+        db.execSQL(Util.CREATE_USER_FOOD_TABLE);
     }
 
     @Override
@@ -62,5 +67,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Inserting row into foodItem table
         long result = db.insert(Util.FOOD_TABLE_NAME, null, values);
         return  result;
+    }
+
+    //Returns the User object for a given username
+    public User getUser(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Fetching from USER_TABLE_NAME for a given USERNAME
+        String FETCH_USER = "SELECT * FROM " + Util.USER_TABLE_NAME +
+                " WHERE " + Util.USERNAME + " = " + username;
+
+        Log.e(String.valueOf(LOG), FETCH_USER);
+
+        Cursor c = db.rawQuery(FETCH_USER, null);
+
+        if (c!=null) c.moveToFirst();
+
+        //Creating new user object from cursor
+        User user = new User();
+        user.setUsername(c.getString(c.getColumnIndex(Util.USERNAME)));
+        user.setName(c.getString(c.getColumnIndex(Util.NAME)));
+        user.setPhone(c.getString(c.getColumnIndex(Util.PHONE)));
+        user.setAddress(c.getString(c.getColumnIndex(Util.ADDRESS)));
+        user.setPassword(c.getString(c.getColumnIndex(Util.PASSWORD)));
+
+        return user;
     }
 }
