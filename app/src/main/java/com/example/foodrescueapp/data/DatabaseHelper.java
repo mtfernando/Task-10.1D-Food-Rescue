@@ -17,8 +17,8 @@ import com.example.foodrescueapp.util.Util;
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public DatabaseHelper(@Nullable Context context) {
-        super(context, Util.DATABASE_NAME, factory, Util.DATABASE_VERSION);
+    public DatabaseHelper(Context context) {
+        super(context, Util.DATABASE_NAME, null, Util.DATABASE_VERSION);
     }
 
     @Override
