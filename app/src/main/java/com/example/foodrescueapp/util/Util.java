@@ -34,7 +34,7 @@ public class Util {
 
     //Creating the users table
     public static final String CREATE_USER_TABLE = "CREATE TABLE " + USER_TABLE_NAME + "("
-            + USERNAME + " TEXT PRIMARY KEY, " + NAME + " TEXT," + PASSWORD + " TEXT,"
+            + USERNAME + " TEXT PRIMARY KEY," + NAME + " TEXT," + PASSWORD + " TEXT,"
             + PHONE + " TEXT," + ADDRESS + " TEXT)";
 
     //Creating the foodItem table
