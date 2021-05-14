@@ -121,19 +121,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery(FETCH_USER, null);
 
-        if (c!=null) c.moveToFirst();
+        if (c.moveToFirst()){
+            //Creating new user object from cursor
+            User user = new User();
+            user.setUsername(c.getString(c.getColumnIndex(Util.USERNAME)));
+            user.setName(c.getString(c.getColumnIndex(Util.NAME)));
+            user.setPhone(c.getString(c.getColumnIndex(Util.PHONE)));
+            user.setAddress(c.getString(c.getColumnIndex(Util.ADDRESS)));
+            user.setPassword(c.getString(c.getColumnIndex(Util.PASSWORD)));
+
+            return user;
+        }
 
         //-1 will represent an error
         else return new User("-1", "-1","-1","-1","-1");
-        //Creating new user object from cursor
-        User user = new User();
-        user.setUsername(c.getString(c.getColumnIndex(Util.USERNAME)));
-        user.setName(c.getString(c.getColumnIndex(Util.NAME)));
-        user.setPhone(c.getString(c.getColumnIndex(Util.PHONE)));
-        user.setAddress(c.getString(c.getColumnIndex(Util.ADDRESS)));
-        user.setPassword(c.getString(c.getColumnIndex(Util.PASSWORD)));
-
-        return user;
     }
 
     //Returns the foodItem for a given foodID
