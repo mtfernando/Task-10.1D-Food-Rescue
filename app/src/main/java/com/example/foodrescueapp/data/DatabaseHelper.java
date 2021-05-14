@@ -45,6 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Util.NAME, user.getName());
         values.put(Util.PHONE, user.getPhone());
         values.put(Util.ADDRESS, user.getAddress());
+        values.put(Util.PASSWORD, user.getPassword());
 
         //Inserting row into user table
         long result = db.insert(Util.USER_TABLE_NAME, null, values);
@@ -92,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Fetching from USER_FOOD_TABLE
         String FETCH_FOOD_ID = "SELECT * FROM" + Util.USER_FOOD_TABLE_NAME + " WHERE "
-                + Util.USERNAME + " = " + username;
+                + Util.USERNAME + " = \"" + username + "\"";
 
         Cursor c = db.rawQuery(FETCH_FOOD_ID, null);
 
@@ -114,7 +115,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Fetching from USER_TABLE_NAME for a given USERNAME
         String FETCH_USER = "SELECT * FROM " + Util.USER_TABLE_NAME +
-                " WHERE " + Util.USERNAME + " = " + username;
+                " WHERE " + Util.USERNAME + " = \"" + username + "\"";
 
         Log.e(String.valueOf(LOG), FETCH_USER);
 
@@ -122,7 +123,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (c!=null) c.moveToFirst();
 
-        else return new User();
+        //-1 will represent an error
+        else return new User("-1", "-1","-1","-1","-1");
         //Creating new user object from cursor
         User user = new User();
         user.setUsername(c.getString(c.getColumnIndex(Util.USERNAME)));
@@ -138,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public FoodItem getFoodItem(Integer foodID){
         SQLiteDatabase db = getWritableDatabase();
 
-        String FETCH_FOOD_ITEM = "SELECT * FROM" + Util.FOOD_TABLE_NAME + " WHERE " + Util.FOOD_ID + " = " + foodID;
+        String FETCH_FOOD_ITEM = "SELECT * FROM" + Util.FOOD_TABLE_NAME + " WHERE " + Util.FOOD_ID + " = \"" + foodID + "\"";
 
         Cursor c = db.rawQuery(FETCH_FOOD_ITEM, null);
 
@@ -165,7 +167,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         User user = getUser(username);
 
-
+        System.out.println(user.getName());
+        System.out.println(user.getPassword());
         if (user.getPassword().equals(password)){
             return true;
         }
