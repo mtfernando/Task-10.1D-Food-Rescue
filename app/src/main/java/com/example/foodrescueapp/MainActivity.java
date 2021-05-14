@@ -1,5 +1,6 @@
 package com.example.foodrescueapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -53,8 +54,23 @@ public class MainActivity extends AppCompatActivity {
                     signupIntent.putExtra("username", usernameEditText.getText().toString());
                 }
 
-                startActivity(signupIntent);
+                //Starting SignupActivty for Result
+                //The result wiill return and autofill the username
+                startActivityForResult(signupIntent, 2);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==2){
+            //Getting the username registered in the signup page and updating the login page
+            // for the ease of the user.
+            String returnedUsername = data.getStringExtra("username");
+            usernameEditText.setText(returnedUsername);
+            passwordEditText.setText("");
+        }
     }
 }

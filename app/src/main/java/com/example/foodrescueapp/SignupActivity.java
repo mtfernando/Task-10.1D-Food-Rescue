@@ -2,6 +2,7 @@ package com.example.foodrescueapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -47,8 +48,16 @@ public class SignupActivity extends AppCompatActivity {
                 if(password.equals(confirmPassword)){
                     long result  = db.createUser(new User(name, username, phone, address, password));
 
+                    //If password match AND entry is successfully entered into the DB
                     if(result>0){
                         Toast.makeText(SignupActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
+
+
+                        //StartActivityForResult from the MainActivity will capture the following information
+                        Intent intent = new Intent();
+                        intent.putExtra("username", username);
+                        setResult(2, intent);
+                        finish();
                     }
                     else{
                         Toast.makeText(SignupActivity.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
