@@ -14,6 +14,8 @@ import com.example.foodrescueapp.model.FoodItem;
 import com.example.foodrescueapp.model.User;
 import com.example.foodrescueapp.util.Util;
 
+import java.util.List;
+
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -152,7 +154,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public FoodItem getFoodItem(Integer foodID){
         SQLiteDatabase db = getWritableDatabase();
 
-        String FETCH_FOOD_ITEM = "SELECT * FROM" + Util.FOOD_TABLE_NAME + " WHERE " + Util.FOOD_ID + " = \"" + foodID + "\"";
+        String FETCH_FOOD_ITEM = "SELECT * FROM " + Util.FOOD_TABLE_NAME + " WHERE " + Util.FOOD_ID + " = \"" + foodID + "\"";
 
         Cursor c = db.rawQuery(FETCH_FOOD_ITEM, null);
 
@@ -170,6 +172,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         foodItem.setQuantity(c.getString(c.getColumnIndex(Util.FOOD_QUANTITY)));
 
         return foodItem;
+    }
+
+    public List<FoodItem> getAllFoodItems(){
+        SQLiteDatabase db = getWritableDatabase();
+        String FETCH_ALL_FOOD = "SELECT * FROM " + Util.FOOD_TABLE_NAME;
+
+        
+        //TODO: COMPLETE THIS FUNCTION TO RETURN A LIST OF FOOD_ITEM
     }
 
     //Auxiliary Functions
