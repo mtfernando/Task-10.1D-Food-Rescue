@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Food Rescue App</string>
+    <string name="app_name">Food Rescue</string>
+
+    <string name="toolbar_1">Home</string>
+    <string name="toolbar_2">My Account</string>
+    <string name="toolbar_3">My List</string>
 </resources>
