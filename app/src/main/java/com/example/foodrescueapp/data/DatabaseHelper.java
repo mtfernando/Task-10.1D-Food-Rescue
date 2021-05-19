@@ -8,13 +8,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.icu.util.UniversalTimeScale;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.foodrescueapp.model.FoodItem;
 import com.example.foodrescueapp.model.User;
 import com.example.foodrescueapp.util.Util;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
@@ -178,8 +183,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         String FETCH_ALL_FOOD = "SELECT * FROM " + Util.FOOD_TABLE_NAME;
 
-        
+        Cursor c = db.rawQuery(FETCH_ALL_FOOD, null);
         //TODO: COMPLETE THIS FUNCTION TO RETURN A LIST OF FOOD_ITEM
+
+        //Index of each attribute
+        final int idIndex = c.getColumnIndex(Util.FOOD_ID);
+        final int titleIndex = c.getColumnIndex(Util.FOOD_TITLE);
+        final int descIndex = c.getColumnIndex(Util.FOOD_DESCRIPTION);
+        final int dateIndex = c.getColumnIndex(Util.FOOD_DATE);
+        final int timeIndex = c.getColumnIndex(Util.FOOD_PICKUP_TIME);
+        final int quantityIndex = c.getColumnIndex(Util.FOOD_QUANTITY);
+        final int locationIndex = c.getColumnIndex(Util.FOOD_LOCATION);
+        final int imageIndex = c.getColumnIndex(Util.FOOD_IMAGE_RES);
+
+        try {
+
+            // Checking if cursor is empty
+            if (!c.moveToFirst()) {
+                return new ArrayList<>();
+            }
+
+            final List<FoodItem> foodItemList = new ArrayList<>();
+
+            do {
+
+                // Read the values of a row in the table using the indexes acquired above
+                final String id = c.getString(idIndex);
+                final String title = c.getString(titleIndex);
+                final String description = c.getString(descIndex);
+                final String date = c.getString(dateIndex);
+                final String quantity = c.getString(quantityIndex);
+                final String time = c.getString(timeIndex);
+                final String location = c.getString(locationIndex);
+                final String imageRes = c.getString(imageIndex);
+
+                foodItemList.add(new FoodItem());
+
+            } while (c.moveToNext());
+
+            return foodItemList;
+
+        } finally {
+            c.close();
+
+            // close the database
+            db.close();
+        }
     }
 
     //Auxiliary Functions
