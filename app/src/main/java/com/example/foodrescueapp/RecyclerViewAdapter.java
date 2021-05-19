@@ -1,6 +1,7 @@
 package com.example.foodrescueapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,12 +41,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if(this.getItemCount()>0){
             holder.foodHeader.setText(foodItemList.get(position).getTitle());
             holder.foodDesc.setText(foodItemList.get(position).getDetails());
-            holder.destinationImage.setImageResource(context.getResources().getIdentifier("drawable/" + foodItemList.get(position).getImageRes(), null, context.getPackageName()));
+            holder.foodImage.setImageResource(context.getResources().getIdentifier("drawable/" + foodItemList.get(position).getImageRes(), null, context.getPackageName()));
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.foodImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    String shareSubject = foodItemList.get(position).getTitle();
+                    String shareBody = foodItemList.get(position).getDetails();
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                    context.startActivity(Intent.createChooser(shareIntent, "Share using:"));
                 }
 
             });
@@ -58,7 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView destinationImage;
+        ImageView foodImage;
         TextView foodHeader, foodDesc;
         ImageButton shareButton;
 
@@ -66,7 +73,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
 
             //Assigning views from itemView(destination_vertical.xml) to local variables.
-            destinationImage = itemView.findViewById(R.id.cardImageView);
+            foodImage = itemView.findViewById(R.id.cardImageView);
             foodHeader = itemView.findViewById(R.id.HeaderTextView);
             foodDesc = itemView.findViewById(R.id.descTextView);
             shareButton = itemView.findViewById(R.id.shareImgButton);
