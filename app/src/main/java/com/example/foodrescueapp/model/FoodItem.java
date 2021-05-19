@@ -87,4 +87,12 @@ public class FoodItem {
     public void setFoodID(Integer foodID) {
         this.foodID = foodID;
     }
+
+    //Returns all details excluding Title in String
+    public String getDetails(){
+        String details = String.format("{0}, {1}, {2}, {3}, {4}", this.getDescription(), this.getQuantity(), this.getPickupDate(),
+                this.getPickupTime(), this.getLocation());
+
+        return details;
+    }
 }
