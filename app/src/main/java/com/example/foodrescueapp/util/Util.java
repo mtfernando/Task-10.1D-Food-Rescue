@@ -39,7 +39,7 @@ public class Util {
 
     //Creating the foodItem table
     public static final String CREATE_FOOD_TABLE = "CREATE TABLE " + FOOD_TABLE_NAME + "("
-            + FOOD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + FOOD_TITLE + " TEXT," + FOOD_DESCRIPTION + "TEXT," + FOOD_IMAGE_RES + " TEXT,"+ FOOD_DATE + " TEXT"
+            + FOOD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + FOOD_TITLE + " TEXT," + FOOD_DESCRIPTION + " TEXT," + FOOD_IMAGE_RES + " TEXT," + FOOD_DATE + " TEXT,"
             + FOOD_PICKUP_TIME + " TEXT," + FOOD_QUANTITY + " TEXT," + FOOD_LOCATION + " TEXT)";
 
     //Creating the users_food table

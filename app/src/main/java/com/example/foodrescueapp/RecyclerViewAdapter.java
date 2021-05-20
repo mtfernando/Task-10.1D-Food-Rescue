@@ -42,20 +42,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.foodHeader.setText(foodItemList.get(position).getTitle());
             holder.foodDesc.setText(foodItemList.get(position).getDetails());
             holder.foodImage.setImageResource(context.getResources().getIdentifier("drawable/" + foodItemList.get(position).getImageRes(), null, context.getPackageName()));
-
-            holder.foodImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    String shareSubject = foodItemList.get(position).getTitle();
-                    String shareBody = foodItemList.get(position).getDetails();
-                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-                    context.startActivity(Intent.createChooser(shareIntent, "Share using:"));
-                }
-
-            });
         }
     }
 
@@ -77,6 +63,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             foodHeader = itemView.findViewById(R.id.HeaderTextView);
             foodDesc = itemView.findViewById(R.id.descTextView);
             shareButton = itemView.findViewById(R.id.shareImgButton);
+
+            shareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("Share button clicked!");
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    String shareSubject = foodItemList.get(getAdapterPosition()).getTitle();
+                    String shareBody = foodItemList.get(getAdapterPosition()).getDetails();
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                    context.startActivity(Intent.createChooser(shareIntent, "Share using:"));
+                }
+            });
         }
     }
 }

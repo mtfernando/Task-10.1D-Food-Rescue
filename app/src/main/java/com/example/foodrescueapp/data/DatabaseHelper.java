@@ -80,6 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Util.FOOD_DESCRIPTION, foodItem.getDescription());
         values.put(Util.FOOD_DATE, foodItem.getPickupDate());
         values.put(Util.FOOD_PICKUP_TIME, foodItem.getPickupTime());
+        values.put(Util.FOOD_LOCATION, foodItem.getLocation());
         values.put(Util.FOOD_QUANTITY, foodItem.getQuantity());
         values.put(Util.FOOD_IMAGE_RES, foodItem.getImageRes());
 
@@ -184,7 +185,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String FETCH_ALL_FOOD = "SELECT * FROM " + Util.FOOD_TABLE_NAME;
 
         Cursor c = db.rawQuery(FETCH_ALL_FOOD, null);
-        //TODO: COMPLETE THIS FUNCTION TO RETURN A LIST OF FOOD_ITEM
 
         //Index of each attribute
         final int idIndex = c.getColumnIndex(Util.FOOD_ID);
@@ -217,7 +217,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 final String location = c.getString(locationIndex);
                 final String imageRes = c.getString(imageIndex);
 
-                foodItemList.add(new FoodItem());
+                foodItemList.add(new FoodItem(title, description, date, time, location, quantity, imageRes));
 
             } while (c.moveToNext());
 

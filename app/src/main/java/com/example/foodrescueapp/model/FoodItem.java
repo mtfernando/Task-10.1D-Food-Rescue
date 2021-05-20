@@ -56,9 +56,7 @@ public class FoodItem {
         this.pickupTime = pickupTime;
     }
 
-    public String getLocation() {
-        return location;
-    }
+    public String getLocation() { return location; }
 
     public void setLocation(String location) {
         this.location = location;
@@ -90,8 +88,8 @@ public class FoodItem {
 
     //Returns all details excluding Title in String
     public String getDetails(){
-        String details = String.format("{0}, {1}, {2}, {3}, {4}", this.getDescription(), this.getQuantity(), this.getPickupDate(),
-                this.getPickupTime(), this.getLocation());
+        String details = this.getDescription() + ", " + this.getQuantity() + ", " + this.getPickupDate() + ", "
+                + this.getPickupTime() + ", " + this.getLocation();
 
         return details;
     }
