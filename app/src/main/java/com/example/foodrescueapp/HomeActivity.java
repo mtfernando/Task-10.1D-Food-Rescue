@@ -1,5 +1,6 @@
 package com.example.foodrescueapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,10 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.FoodItem;
@@ -50,9 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         db.createFoodItem(db.getUser("admin"), new FoodItem("Chicken Buriyani", "Yummy chicken buriyani", "22nd of May", "Night", "Narre Warren", "4 pax", "food_sample"));
 
         recyclerView = findViewById(R.id.recyclerView);
-        recyclerViewAdapter = new RecyclerViewAdapter(db.getAllFoodItems(), this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(recyclerViewAdapter);
+        setRecyclerView();
 
         //Onclick for Floating action button
         addFoodItemButton.setOnClickListener(new View.OnClickListener() {
@@ -62,9 +63,26 @@ public class HomeActivity extends AppCompatActivity {
                 Intent addFoodInent = new Intent(HomeActivity.this, AddFoodActivity.class);
                 addFoodInent.putExtra("user", username);
 
-                startActivity(addFoodInent);
+                startActivityForResult(addFoodInent, 2);
             }
         });
+    }
+
+    public void setRecyclerView(){
+        recyclerViewAdapter = new RecyclerViewAdapter(db.getAllFoodItems(), this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(recyclerViewAdapter);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==2){
+            if(data.getBooleanExtra("INSERT_OK", false)){
+                Toast.makeText(this, "Food Item was successfully added!", Toast.LENGTH_SHORT).show();
+                setRecyclerView();
+            }
+        }
     }
 
     @Override
