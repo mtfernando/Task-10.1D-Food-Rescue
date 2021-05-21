@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Executing SQL from Util class
         db.execSQL(Util.CREATE_USER_TABLE);
         db.execSQL(Util.CREATE_FOOD_TABLE);
-        db.execSQL(Util.CREATE_USER_FOOD_TABLE);
+//        db.execSQL(Util.CREATE_USER_FOOD_TABLE);
 
         //Developer purposes - DELETE IN PROD
         //Dummy Admin User for development purposes
@@ -83,27 +83,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Util.FOOD_LOCATION, foodItem.getLocation());
         values.put(Util.FOOD_QUANTITY, foodItem.getQuantity());
         values.put(Util.FOOD_IMAGE_RES, foodItem.getImageRes());
+        values.put(Util.USERNAME, user.getUsername());
 
         //Inserting row into foodItem table
         long result = db.insert(Util.FOOD_TABLE_NAME, null, values);
 
         //Inserting row into linking table users_food
-        long linkingResult = createUserFoodEntry(user, foodItem);
+        //long linkingResult = createUserFoodEntry(user, foodItem);
 
         return  result;
-    }
-
-    //Inserts a row in the linking table USER_FOOD_TABLE
-    public long createUserFoodEntry(User user, FoodItem foodItem){
-        SQLiteDatabase db = getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(Util.USERNAME, user.getUsername());
-        values.put(Util.FOOD_ID, foodItem.getFoodID());
-
-        //Inserting row into users_food table
-        long result = db.insert(Util.USER_FOOD_TABLE_NAME, null, values);
-        return result;
     }
 
     //Returns a list of foodID for a given username from user_food table
@@ -128,6 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return foodIDArray;
     }
+
     //Returns the User object for a given username
     public User getUser(String username){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -183,6 +172,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<FoodItem> getAllFoodItems(){
         SQLiteDatabase db = getWritableDatabase();
         String FETCH_ALL_FOOD = "SELECT * FROM " + Util.FOOD_TABLE_NAME;
+
+        Cursor c = db.rawQuery(FETCH_ALL_FOOD, null);
+
+        //Index of each attribute
+        final int idIndex = c.getColumnIndex(Util.FOOD_ID);
+        final int titleIndex = c.getColumnIndex(Util.FOOD_TITLE);
+        final int descIndex = c.getColumnIndex(Util.FOOD_DESCRIPTION);
+        final int dateIndex = c.getColumnIndex(Util.FOOD_DATE);
+        final int timeIndex = c.getColumnIndex(Util.FOOD_PICKUP_TIME);
+        final int quantityIndex = c.getColumnIndex(Util.FOOD_QUANTITY);
+        final int locationIndex = c.getColumnIndex(Util.FOOD_LOCATION);
+        final int imageIndex = c.getColumnIndex(Util.FOOD_IMAGE_RES);
+
+        try {
+
+            // Checking if cursor is empty
+            if (!c.moveToFirst()) {
+                return new ArrayList<>();
+            }
+
+            final List<FoodItem> foodItemList = new ArrayList<>();
+
+            do {
+
+                // Read the values of a row in the table using the indexes acquired above
+                final String id = c.getString(idIndex);
+                final String title = c.getString(titleIndex);
+                final String description = c.getString(descIndex);
+                final String date = c.getString(dateIndex);
+                final String quantity = c.getString(quantityIndex);
+                final String time = c.getString(timeIndex);
+                final String location = c.getString(locationIndex);
+                final String imageRes = c.getString(imageIndex);
+
+                foodItemList.add(new FoodItem(title, description, date, time, location, quantity, imageRes));
+
+            } while (c.moveToNext());
+
+            return foodItemList;
+
+        } finally {
+            c.close();
+
+            // close the database
+            db.close();
+        }
+    }
+
+    //Overloading getAllFoodItems with username
+    public List<FoodItem> getAllFoodItems(String username){
+        SQLiteDatabase db = getWritableDatabase();
+        String FETCH_ALL_FOOD = "SELECT * FROM " + Util.FOOD_TABLE_NAME + " WHERE " + Util.USERNAME + " = \"" + username + "\"";
 
         Cursor c = db.rawQuery(FETCH_ALL_FOOD, null);
 

@@ -27,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerViewAdapter recyclerViewAdapter;
     DatabaseHelper db;
     FloatingActionButton addFoodItemButton;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //Getting intent from MainActivity
         Intent intent = getIntent();
-        String username = intent.getStringExtra("user");
+        username = intent.getStringExtra("user");
 
         db = new DatabaseHelper(this);
 
@@ -106,7 +107,11 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             case R.id.toolbar_opt3: {
-                //TODO WHEN OPTION 3 IS SELECTED
+                //My List is selected from aciton overflow
+                Intent listIntent = new Intent(HomeActivity.this, ListActivity.class);
+                listIntent.putExtra("username", username);
+                startActivity(listIntent);
+
                 break;
             }
         }
