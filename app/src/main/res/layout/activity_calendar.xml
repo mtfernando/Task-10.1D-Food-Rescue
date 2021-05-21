@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CalendarActivity">
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"/>
+
+    <TextView
+        android:id="@+id/dateDisplayTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Date appears here once selected"
+        android:textColor="#0B1F80" />
+
+    <Button
+        android:id="@+id/selectDateButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="50dp"/>
+
+</LinearLayout>

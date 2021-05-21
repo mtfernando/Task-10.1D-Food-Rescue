@@ -9,7 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodRescueApp">
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".AddFoodActivity" />
+
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/add_button" />
+
+        <activity android:name=".HomeActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -5,14 +5,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.FoodItem;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -20,14 +23,22 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerViewAdapter recyclerViewAdapter;
     DatabaseHelper db;
+    FloatingActionButton addFoodItemButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        addFoodItemButton = findViewById(R.id.fab);
+
+        //Setting up toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
+        //Getting intent from MainActivity
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("user");
 
         db = new DatabaseHelper(this);
 
@@ -42,6 +53,18 @@ public class HomeActivity extends AppCompatActivity {
         recyclerViewAdapter = new RecyclerViewAdapter(db.getAllFoodItems(), this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(recyclerViewAdapter);
+
+        //Onclick for Floating action button
+        addFoodItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Starting AddFoodActivity. Sending Username.
+                Intent addFoodInent = new Intent(HomeActivity.this, AddFoodActivity.class);
+                addFoodInent.putExtra("user", username);
+
+                startActivity(addFoodInent);
+            }
+        });
     }
 
     @Override
