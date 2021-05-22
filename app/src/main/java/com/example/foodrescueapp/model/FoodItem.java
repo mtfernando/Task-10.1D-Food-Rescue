@@ -1,5 +1,10 @@
 package com.example.foodrescueapp.model;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
+import java.io.ByteArrayOutputStream;
+
 public class FoodItem {
     private String title;
     private String description;
@@ -7,10 +12,10 @@ public class FoodItem {
     private String pickupTime;
     private String location;
     private String quantity;
-    private String imageRes;
+    private Bitmap imageRes;
     private Integer foodID;
 
-    public FoodItem(String title, String description, String pickupDate, String pickupTime, String location, String quantity, String imageRes) {
+    public FoodItem(String title, String description, String pickupDate, String pickupTime, String location, String quantity, Bitmap imageRes) {
         this.title = title;
         this.description = description;
         this.pickupDate = pickupDate;
@@ -70,11 +75,11 @@ public class FoodItem {
         this.quantity = quantity;
     }
 
-    public String getImageRes() {
-        return imageRes;
+    public byte[] getImageRes() {
+        return getBitmapAsByteArray(imageRes);
     }
 
-    public void setImageRes(String imageRes) {
+    public void setImageRes(Bitmap imageRes) {
         this.imageRes = imageRes;
     }
 
@@ -92,5 +97,11 @@ public class FoodItem {
                 + this.getPickupTime() + ", " + this.getLocation();
 
         return details;
+    }
+
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
     }
 }

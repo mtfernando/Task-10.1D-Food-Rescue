@@ -5,7 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.icu.util.UniversalTimeScale;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -160,7 +163,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         foodItem.setFoodID(c.getInt(c.getColumnIndex(Util.FOOD_ID)));
         foodItem.setTitle(c.getString(c.getColumnIndex(Util.FOOD_TITLE)));
         foodItem.setDescription(c.getString(c.getColumnIndex(Util.FOOD_DESCRIPTION)));
-        foodItem.setImageRes(c.getString(c.getColumnIndex(Util.FOOD_IMAGE_RES)));
+
+        byte[] bitmapData = c.getBlob(c.getColumnIndex(Util.FOOD_IMAGE_RES));
+        foodItem.setImageRes(BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
+
         foodItem.setLocation(c.getString(c.getColumnIndex(Util.FOOD_LOCATION)));
         foodItem.setPickupDate(c.getString(c.getColumnIndex(Util.FOOD_DATE)));
         foodItem.setPickupTime(c.getString(c.getColumnIndex(Util.FOOD_PICKUP_TIME)));
@@ -204,7 +210,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 final String quantity = c.getString(quantityIndex);
                 final String time = c.getString(timeIndex);
                 final String location = c.getString(locationIndex);
-                final String imageRes = c.getString(imageIndex);
+
+                byte[] bitmapData = c.getBlob(imageIndex);
+                final Bitmap imageRes = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
 
                 foodItemList.add(new FoodItem(title, description, date, time, location, quantity, imageRes));
 
@@ -256,7 +264,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 final String quantity = c.getString(quantityIndex);
                 final String time = c.getString(timeIndex);
                 final String location = c.getString(locationIndex);
-                final String imageRes = c.getString(imageIndex);
+
+                byte[] bitmapData = c.getBlob(imageIndex);
+                Bitmap imageRes = (BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
 
                 foodItemList.add(new FoodItem(title, description, date, time, location, quantity, imageRes));
 

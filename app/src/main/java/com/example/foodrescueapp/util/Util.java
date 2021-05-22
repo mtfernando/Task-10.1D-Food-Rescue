@@ -1,6 +1,9 @@
 package com.example.foodrescueapp.util;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+
+import java.io.ByteArrayOutputStream;
 
 public class Util {
 
@@ -45,4 +48,10 @@ public class Util {
 //    //Creating the users_food table
 //    public static final String CREATE_USER_FOOD_TABLE = "CREATE TABLE " + USER_FOOD_TABLE_NAME + "(" + USERNAME + " TEXT,"
 //            + FOOD_ID + " TEXT," + " PRIMARY KEY(" + USERNAME + "," + FOOD_ID + "))";
+
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
+    }
 }

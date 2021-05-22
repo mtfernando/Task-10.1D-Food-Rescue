@@ -2,6 +2,7 @@ package com.example.foodrescueapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodrescueapp.model.FoodItem;
+import com.example.foodrescueapp.util.Util;
 
 import java.util.List;
 
@@ -41,7 +43,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if(this.getItemCount()>0){
             holder.foodHeader.setText(foodItemList.get(position).getTitle());
             holder.foodDesc.setText(foodItemList.get(position).getDetails());
-            holder.foodImage.setImageResource(context.getResources().getIdentifier("drawable/" + foodItemList.get(position).getImageRes(), null, context.getPackageName()));
+            //holder.foodImage.setImageResource(context.getResources().getIdentifier("drawable/" + foodItemList.get(position).getImageRes(), null, context.getPackageName()));
+            byte[] bitmapData = foodItemList.get(position).getImageRes();
+            holder.foodImage.setImageBitmap(BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
         }
     }
 
