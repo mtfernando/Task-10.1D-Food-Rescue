@@ -36,18 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Executing SQL from Util class
         db.execSQL(Util.CREATE_USER_TABLE);
         db.execSQL(Util.CREATE_FOOD_TABLE);
-//        db.execSQL(Util.CREATE_USER_FOOD_TABLE);
-
-        //Developer purposes - DELETE IN PROD
-        //Dummy Admin User for development purposes
-        ContentValues cv = new ContentValues();
-        cv.put(Util.USERNAME, "admin");
-        cv.put(Util.NAME, "M.T.S. Fernando");
-        cv.put(Util.PHONE, "0432241880");
-        cv.put(Util.ADDRESS, "65, Sherwood Road, Narre Warren South");
-        cv.put(Util.PASSWORD, "p");
-
-        long result = db.insert(Util.USER_TABLE_NAME, null, cv);
     }
 
     @Override
