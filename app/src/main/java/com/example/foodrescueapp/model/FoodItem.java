@@ -3,6 +3,8 @@ package com.example.foodrescueapp.model;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import com.example.foodrescueapp.util.Util;
+
 import java.io.ByteArrayOutputStream;
 
 public class FoodItem {
@@ -76,7 +78,7 @@ public class FoodItem {
     }
 
     public byte[] getImageRes() {
-        return getBitmapAsByteArray(imageRes);
+        return Util.getBitmapAsByteArray(imageRes);
     }
 
     public void setImageRes(Bitmap imageRes) {
@@ -97,11 +99,5 @@ public class FoodItem {
                 + this.getPickupTime() + ", " + this.getLocation();
 
         return details;
-    }
-
-    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
-        return outputStream.toByteArray();
     }
 }

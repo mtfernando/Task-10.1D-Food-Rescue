@@ -10,6 +10,7 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,11 +42,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
         if(this.getItemCount()>0){
+
+            //Setting up each Food Item's viewholder
             holder.foodHeader.setText(foodItemList.get(position).getTitle());
             holder.foodDesc.setText(foodItemList.get(position).getDetails());
             //holder.foodImage.setImageResource(context.getResources().getIdentifier("drawable/" + foodItemList.get(position).getImageRes(), null, context.getPackageName()));
             byte[] bitmapData = foodItemList.get(position).getImageRes();
             holder.foodImage.setImageBitmap(BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
+        }
+        else{
+            Toast.makeText(context, "No food items to show!", Toast.LENGTH_SHORT).show();
         }
     }
 

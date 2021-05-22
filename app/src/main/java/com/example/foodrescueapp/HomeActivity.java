@@ -48,13 +48,6 @@ public class HomeActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-        //Dummy values for testing
-        //FoodItems
-        db.createFoodItem(db.getUser("admin"), new FoodItem("Fried Rice", "Yummy egg fried rice", "22nd of May", "Evening", "Rowville", "4 pax", BitmapFactory.decodeResource(getResources(),R.drawable.food_sample)));
-        db.createFoodItem(db.getUser("admin"), new FoodItem("Sushi", "Yummy Sushi", "25th of May", "Morning", "Cranbourne", "4 pax", BitmapFactory.decodeResource(getResources(),R.drawable.food_sample)));
-        db.createFoodItem(db.getUser("admin"), new FoodItem("Sandwiches", "Yummy egg sandwiches", "22nd of May", "Evening", "Rowville", "4 pax", BitmapFactory.decodeResource(getResources(),R.drawable.food_sample)));
-        db.createFoodItem(db.getUser("admin"), new FoodItem("Chicken Buriyani", "Yummy chicken buriyani", "22nd of May", "Night", "Narre Warren", "4 pax", BitmapFactory.decodeResource(getResources(),R.drawable.food_sample)));
-
         recyclerView = findViewById(R.id.recyclerView);
         setRecyclerView();
 
