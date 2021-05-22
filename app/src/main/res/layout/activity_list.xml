@@ -8,7 +8,7 @@
     tools:context=".ListActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/my_toolbar"
+        android:id="@+id/list_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:titleTextColor="@android:color/white"
@@ -31,10 +31,21 @@
             android:contentDescription="Add Food Item"
             android:layout_margin="16dp" />
 
+        <TextView
+            android:id="@+id/myListTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal"
+            android:text="My List"
+            android:textColor="#000000"
+            android:textSize="18dp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/myListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
             android:layout_marginRight="25dp"/>
     </FrameLayout>
 </LinearLayout>

@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         addFoodItemButton = findViewById(R.id.fab);
 
         //Setting up toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(myToolbar);
 
         //Getting intent from MainActivity

@@ -20,15 +20,15 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        //Setting up toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.list_toolbar);
+        setSupportActionBar(myToolbar);
+
         //Get intent data from HomeActivity
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
 
         db = new DatabaseHelper(this);
-
-        //Setting up toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
 
         recyclerView = findViewById(R.id.myListRecyclerView);
 
