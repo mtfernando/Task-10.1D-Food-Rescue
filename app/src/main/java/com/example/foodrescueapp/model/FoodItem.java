@@ -35,6 +35,8 @@ public class FoodItem {
         this.imageRes = imageRes;
     }
 
+    public FoodItem(){}
+
     public String getTitle() {
         return title;
     }
@@ -108,7 +110,7 @@ public class FoodItem {
     }
 
     public byte[] getImageRes() {
-        return Util.getBitmapAsByteArray(imageRes);
+        return getBitmapAsByteArray(imageRes);
     }
 
     public void setImageRes(Bitmap imageRes) {
@@ -122,5 +124,17 @@ public class FoodItem {
     public void setFoodID(Integer foodID) {
         this.foodID = foodID;
     }
+
+    public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+        return outputStream.toByteArray();
+    }
+
+    public String getDetails(){
+        String details = this.getDescription() + ", " + this.getQuantity() + ", " + this.getPickupDate() + ", "
+                + this.getPickupTime() + ", " + this.getLocationAddress();
+
+
 
 }

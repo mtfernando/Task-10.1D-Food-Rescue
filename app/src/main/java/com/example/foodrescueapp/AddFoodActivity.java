@@ -134,13 +134,14 @@ public class AddFoodActivity extends AppCompatActivity {
                 String time = timeEditText.getText().toString();
                 String quantity = quantityEditText.getText().toString();
 
+                long result=-1;
                 //Variables relating to the location are set in OnActivityResult using the data given by Places Autocomplete
 
                 //Check if the user has selected a location
                 if(isLocationSelected){
                     //Create and insert FoodItem to DB
                     FoodItem foodItem = new FoodItem(title, desc, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes);
-                    long result = db.createFoodItem(db.getUser(username), foodItem);
+                    result = db.createFoodItem(db.getUser(username), foodItem);
                     db.close();
                 } else Toast.makeText(AddFoodActivity.this, "Please select a location", Toast.LENGTH_SHORT).show();
 
@@ -210,6 +211,5 @@ public class AddFoodActivity extends AppCompatActivity {
                 }
         }
 
-    }
     }
 }
