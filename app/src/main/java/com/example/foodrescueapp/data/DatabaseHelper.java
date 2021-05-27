@@ -71,7 +71,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Util.FOOD_DESCRIPTION, foodItem.getDescription());
         values.put(Util.FOOD_DATE, foodItem.getPickupDate());
         values.put(Util.FOOD_PICKUP_TIME, foodItem.getPickupTime());
-        values.put(Util.FOOD_LOCATION, foodItem.getLocation());
+        values.put(Util.FOOD_LOCATION_ID, foodItem.getLocationID());
+        values.put(Util.FOOD_LOCATION, foodItem.getLocationAddress());
+        values.put(Util.FOOD_LOCATION_LAT, foodItem.getLocationLatitude());
+        values.put(Util.FOOD_LOCATION_LON, foodItem.getLocationLongitude());
         values.put(Util.FOOD_QUANTITY, foodItem.getQuantity());
         values.put(Util.FOOD_IMAGE_RES, foodItem.getImageRes());
         values.put(Util.USERNAME, user.getUsername());
@@ -155,7 +158,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         byte[] bitmapData = c.getBlob(c.getColumnIndex(Util.FOOD_IMAGE_RES));
         foodItem.setImageRes(BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
 
-        foodItem.setLocation(c.getString(c.getColumnIndex(Util.FOOD_LOCATION)));
+        foodItem.setLocationID(c.getString(c.getColumnIndex(Util.FOOD_LOCATION_ID)));
+        foodItem.setLocationAddress(c.getString(c.getColumnIndex(Util.FOOD_LOCATION)));
+        foodItem.setLocationLatitude(c.getDouble(c.getColumnIndex(Util.FOOD_LOCATION_LAT)));
+        foodItem.setLocationLongitude(c.getDouble(c.getColumnIndex(Util.FOOD_LOCATION_LON)));
         foodItem.setPickupDate(c.getString(c.getColumnIndex(Util.FOOD_DATE)));
         foodItem.setPickupTime(c.getString(c.getColumnIndex(Util.FOOD_PICKUP_TIME)));
         foodItem.setQuantity(c.getString(c.getColumnIndex(Util.FOOD_QUANTITY)));
@@ -176,7 +182,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final int dateIndex = c.getColumnIndex(Util.FOOD_DATE);
         final int timeIndex = c.getColumnIndex(Util.FOOD_PICKUP_TIME);
         final int quantityIndex = c.getColumnIndex(Util.FOOD_QUANTITY);
-        final int locationIndex = c.getColumnIndex(Util.FOOD_LOCATION);
+        final int locationIDIndex = c.getColumnIndex(Util.FOOD_LOCATION_ID);
+        final int locationAddressIndex = c.getColumnIndex(Util.FOOD_LOCATION);
+        final int locationLatIndex = c.getColumnIndex(Util.FOOD_LOCATION_LAT);
+        final int locationLonIndex = c.getColumnIndex(Util.FOOD_LOCATION_LON);
         final int imageIndex = c.getColumnIndex(Util.FOOD_IMAGE_RES);
 
         try {
@@ -197,12 +206,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 final String date = c.getString(dateIndex);
                 final String quantity = c.getString(quantityIndex);
                 final String time = c.getString(timeIndex);
-                final String location = c.getString(locationIndex);
+                final String locationID = c.getString(locationIDIndex);
+                final String locationAddress = c.getString(locationAddressIndex);
+                final double locationLat = c.getDouble(locationLatIndex);
+                final double locationLon = c.getDouble(locationLonIndex);
 
                 byte[] bitmapData = c.getBlob(imageIndex);
                 final Bitmap imageRes = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
 
-                foodItemList.add(new FoodItem(title, description, date, time, location, quantity, imageRes));
+                foodItemList.add(new FoodItem(title, description, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes));
 
             } while (c.moveToNext());
 
@@ -230,7 +242,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final int dateIndex = c.getColumnIndex(Util.FOOD_DATE);
         final int timeIndex = c.getColumnIndex(Util.FOOD_PICKUP_TIME);
         final int quantityIndex = c.getColumnIndex(Util.FOOD_QUANTITY);
-        final int locationIndex = c.getColumnIndex(Util.FOOD_LOCATION);
+        final int locationIDIndex = c.getColumnIndex(Util.FOOD_LOCATION_ID);
+        final int locationAddressIndex = c.getColumnIndex(Util.FOOD_LOCATION);
+        final int locationLatIndex = c.getColumnIndex(Util.FOOD_LOCATION_LAT);
+        final int locationLonIndex = c.getColumnIndex(Util.FOOD_LOCATION_LON);
         final int imageIndex = c.getColumnIndex(Util.FOOD_IMAGE_RES);
 
         try {
@@ -251,12 +266,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 final String date = c.getString(dateIndex);
                 final String quantity = c.getString(quantityIndex);
                 final String time = c.getString(timeIndex);
-                final String location = c.getString(locationIndex);
+                final String locationID = c.getString(locationIDIndex);
+                final String locationAddress = c.getString(locationAddressIndex);
+                final double locationLat = c.getDouble(locationLatIndex);
+                final double locationLon = c.getDouble(locationLonIndex);
 
                 byte[] bitmapData = c.getBlob(imageIndex);
                 Bitmap imageRes = (BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
 
-                foodItemList.add(new FoodItem(title, description, date, time, location, quantity, imageRes));
+                foodItemList.add(new FoodItem(title, description, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes));
 
             } while (c.moveToNext());
 

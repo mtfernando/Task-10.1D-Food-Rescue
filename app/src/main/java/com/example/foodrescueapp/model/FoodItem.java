@@ -8,27 +8,31 @@ import com.example.foodrescueapp.util.Util;
 import java.io.ByteArrayOutputStream;
 
 public class FoodItem {
+
+
     private String title;
     private String description;
     private String pickupDate;
     private String pickupTime;
-    private String location;
+    private String locationID, locationAddress;
+    private double locationLongitude, locationLatitude;
     private String quantity;
     private Bitmap imageRes;
     private Integer foodID;
 
-    public FoodItem(String title, String description, String pickupDate, String pickupTime, String location, String quantity, Bitmap imageRes) {
+    public FoodItem(String title, String description, String pickupDate, String pickupTime,
+                    String locationID, String locationAddress, double locationLatitude,
+                    double locationLongitude, String quantity, Bitmap imageRes) {
         this.title = title;
         this.description = description;
         this.pickupDate = pickupDate;
         this.pickupTime = pickupTime;
-        this.location = location;
+        this.locationID = locationID;
+        this.locationAddress = locationAddress;
+        this.locationLongitude = locationLongitude;
+        this.locationLatitude = locationLatitude;
         this.quantity = quantity;
         this.imageRes = imageRes;
-    }
-
-    public FoodItem(){
-
     }
 
     public String getTitle() {
@@ -63,10 +67,36 @@ public class FoodItem {
         this.pickupTime = pickupTime;
     }
 
-    public String getLocation() { return location; }
+    public String getLocationID() {
+        return locationID;
+    }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLocationID(String locationID) {
+        this.locationID = locationID;
+    }
+
+    public String getLocationAddress() {
+        return locationAddress;
+    }
+
+    public void setLocationAddress(String locationAddress) {
+        this.locationAddress = locationAddress;
+    }
+
+    public double getLocationLongitude() {
+        return locationLongitude;
+    }
+
+    public void setLocationLongitude(double locationLongitude) {
+        this.locationLongitude = locationLongitude;
+    }
+
+    public double getLocationLatitude() {
+        return locationLatitude;
+    }
+
+    public void setLocationLatitude(double locationLatitude) {
+        this.locationLatitude = locationLatitude;
     }
 
     public String getQuantity() {
@@ -93,11 +123,4 @@ public class FoodItem {
         this.foodID = foodID;
     }
 
-    //Returns all details excluding Title in String
-    public String getDetails(){
-        String details = this.getDescription() + ", " + this.getQuantity() + ", " + this.getPickupDate() + ", "
-                + this.getPickupTime() + ", " + this.getLocation();
-
-        return details;
-    }
 }

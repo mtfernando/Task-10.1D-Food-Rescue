@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 
 public class Util {
 
+    public static final String PLACES_API_KEY = "AIzaSyAuuYM85VQZh7Fs1Yw6mcwd2CmjFH8VVf4";
     //All database constants defined here
 
     //The email address will be the username for a given user. This username
@@ -30,8 +31,11 @@ public class Util {
     public static final String FOOD_DATE = "food_pickup_date";
     public static final String FOOD_PICKUP_TIME = "food_pickup_time";
     public static final String FOOD_QUANTITY = "food_quantity";
-    public static final String FOOD_LOCATION = "food_location";
-    public static final String  FOOD_IMAGE_RES = "food_image_resource";
+    public static final String FOOD_LOCATION_ID = "food_location_id";
+    public static final String FOOD_LOCATION = "food_location_address";
+    public static final String FOOD_LOCATION_LAT = "food_location_latitude";
+    public static final String FOOD_LOCATION_LON = "food_location_longitude";
+    public static final String FOOD_IMAGE_RES = "food_image_resource";
 
     // All QUERIES HERE
 
@@ -41,9 +45,12 @@ public class Util {
             + PHONE + " TEXT," + ADDRESS + " TEXT)";
 
     //Creating the foodItem table
-    public static final String CREATE_FOOD_TABLE = "CREATE TABLE " + FOOD_TABLE_NAME + "("
-            + FOOD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + FOOD_TITLE + " TEXT," + FOOD_DESCRIPTION + " TEXT," + FOOD_IMAGE_RES + " TEXT," + FOOD_DATE + " TEXT,"
-            + FOOD_PICKUP_TIME + " TEXT," + FOOD_QUANTITY + " TEXT," + FOOD_LOCATION + " TEXT," + USERNAME + " TEXT)";
+    public static final String CREATE_FOOD_TABLE = "CREATE TABLE " + FOOD_TABLE_NAME + "(" + FOOD_ID
+            + " INTEGER PRIMARY KEY AUTOINCREMENT," + FOOD_TITLE + " TEXT," + FOOD_DESCRIPTION
+            + " TEXT," + FOOD_IMAGE_RES + " TEXT," + FOOD_DATE + " TEXT," + FOOD_PICKUP_TIME
+            + " TEXT," + FOOD_QUANTITY + " TEXT," + FOOD_LOCATION_ID + " TEXT,"
+            + FOOD_LOCATION + " TEXT," + FOOD_LOCATION_LAT + " REAL,"+ FOOD_LOCATION_LON
+            + " REAL," + USERNAME + " TEXT)";
     
     public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
