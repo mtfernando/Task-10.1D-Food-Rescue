@@ -25,7 +25,10 @@ import android.widget.Toast;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.FoodItem;
+import com.example.foodrescueapp.util.Util;
+import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
@@ -42,7 +45,7 @@ public class AddFoodActivity extends AppCompatActivity {
     double locationLat, locationLon;
     Button saveButton, addDateButton;
     ImageButton addImageButton;
-    TextView locationTextView;
+    TextView locationSelectTextView;
     EditText titleEditText, descEditText, timeEditText, quantityEditText;
     Bitmap imageRes;
     Place selectedPlace;
@@ -66,7 +69,7 @@ public class AddFoodActivity extends AppCompatActivity {
         descEditText = findViewById(R.id.descEditText);
         timeEditText = findViewById(R.id.timeEditText);
         quantityEditText = findViewById(R.id.quantityEditText);
-        locationTextView = findViewById(R.id.locationTextView);
+        locationSelectTextView = findViewById(R.id.locationSelectTextView);
 
         //Initialize DB
         db = new DatabaseHelper(this);
@@ -74,6 +77,10 @@ public class AddFoodActivity extends AppCompatActivity {
         //Get the username of the user that is adding a new FoodItem
         Intent intent = getIntent();
         username = intent.getStringExtra("user");
+
+        //Initialize Places API
+        Places.initialize(getApplicationContext(), Util.PLACES_API_KEY);
+        PlacesClient placesClient = Places.createClient(getApplicationContext());
 
         //Places API Fields
         // Use fields to define the data types to return.
@@ -83,15 +90,16 @@ public class AddFoodActivity extends AppCompatActivity {
         placeFields.add(Place.Field.ID);
         placeFields.add(Place.Field.LAT_LNG);
 
+        //Checking permissions before requesting location updates
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(AddFoodActivity.this, new String[]{ACCESS_FINE_LOCATION}, 1);
+        }
+
         //Get location using Places Autocomplete
-        locationTextView.setOnClickListener(new View.OnClickListener() {
+        locationSelectTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Checking permissions before requesting location updates
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(AddFoodActivity.this, new String[]{ACCESS_FINE_LOCATION}, 1);
-                }
-
+                System.out.println("TextView onClick working");
                 Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, placeFields).build(AddFoodActivity.this);
                 startActivityForResult(intent, 100);
             }
@@ -199,14 +207,15 @@ public class AddFoodActivity extends AppCompatActivity {
                     selectedPlace = Autocomplete.getPlaceFromIntent(data);
 
                     //Set TextView to display address of the selected location
-                    locationTextView.setText(selectedPlace.getAddress());
+                    locationSelectTextView.setText(selectedPlace.getAddress());
 
-                    //Set globabl vars
+                    //Set global vars
                     locationID = selectedPlace.getId();
                     locationAddress = selectedPlace.getAddress();
                     locationLat = selectedPlace.getLatLng().latitude;
                     locationLon = selectedPlace.getLatLng().longitude;
 
+                    //Identifies that the user has selected a location
                     isLocationSelected = true;
                 }
         }
