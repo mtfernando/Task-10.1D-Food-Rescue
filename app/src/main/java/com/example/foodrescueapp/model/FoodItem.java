@@ -131,10 +131,10 @@ public class FoodItem {
         return outputStream.toByteArray();
     }
 
-    public String getDetails(){
+    public String getDetails() {
         String details = this.getDescription() + ", " + this.getQuantity() + ", " + this.getPickupDate() + ", "
                 + this.getPickupTime() + ", " + this.getLocationAddress();
 
-
-
+        return details;
+    }
 }
