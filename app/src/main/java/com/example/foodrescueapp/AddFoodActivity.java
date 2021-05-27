@@ -3,6 +3,7 @@ package com.example.foodrescueapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
@@ -19,21 +20,33 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.FoodItem;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class AddFoodActivity extends AppCompatActivity {
 
     private static final String TAG = "image";
     DatabaseHelper db;
-    String username;
-    String date;
+    String username,date, locationID, locationAddress;
+    double locationLat, locationLon;
     Button saveButton, addDateButton;
     ImageButton addImageButton;
-    EditText titleEditText, descEditText, timeEditText, quantityEditText, locationEditText;
+    TextView locationTextView;
+    EditText titleEditText, descEditText, timeEditText, quantityEditText;
     Bitmap imageRes;
+    Place selectedPlace;
+    Boolean isLocationSelected=false; //True if the user has selected a location
 
     public static final int RESULT_CALENDAR = 1;
     private final static int RESULT_LOAD_IMAGE = 2;
@@ -44,6 +57,7 @@ public class AddFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_food);
 
+        //Initialize Views
         saveButton = findViewById(R.id.saveButton);
         addDateButton = findViewById(R.id.addDateButton);
         addImageButton = findViewById(R.id.addImageButton);
@@ -52,13 +66,36 @@ public class AddFoodActivity extends AppCompatActivity {
         descEditText = findViewById(R.id.descEditText);
         timeEditText = findViewById(R.id.timeEditText);
         quantityEditText = findViewById(R.id.quantityEditText);
-        locationEditText = findViewById(R.id.locationEditText);
+        locationTextView = findViewById(R.id.locationTextView);
 
+        //Initialize DB
         db = new DatabaseHelper(this);
 
         //Get the username of the user that is adding a new FoodItem
         Intent intent = getIntent();
         username = intent.getStringExtra("user");
+
+        //Places API Fields
+        // Use fields to define the data types to return.
+        List<Place.Field> placeFields = new ArrayList<>();
+        placeFields.add(Place.Field.NAME);
+        placeFields.add(Place.Field.ADDRESS);
+        placeFields.add(Place.Field.ID);
+        placeFields.add(Place.Field.LAT_LNG);
+
+        //Get location using Places Autocomplete
+        locationTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Checking permissions before requesting location updates
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(AddFoodActivity.this, new String[]{ACCESS_FINE_LOCATION}, 1);
+                }
+
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, placeFields).build(AddFoodActivity.this);
+                startActivityForResult(intent, 100);
+            }
+        });
 
         addImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,12 +133,17 @@ public class AddFoodActivity extends AppCompatActivity {
                 String desc = descEditText.getText().toString();
                 String time = timeEditText.getText().toString();
                 String quantity = quantityEditText.getText().toString();
-                String location = locationEditText.getText().toString();
 
-                //Create and insert FoodItem to DB
-                FoodItem foodItem = new FoodItem(title, desc, date, time, location, quantity, imageRes);
-                long result = db.createFoodItem(db.getUser(username), foodItem);
-                db.close();
+                //Variables relating to the location are set in OnActivityResult using the data given by Places Autocomplete
+
+                //Check if the user has selected a location
+                if(isLocationSelected){
+                    //Create and insert FoodItem to DB
+                    FoodItem foodItem = new FoodItem(title, desc, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes);
+                    long result = db.createFoodItem(db.getUser(username), foodItem);
+                    db.close();
+                } else Toast.makeText(AddFoodActivity.this, "Please select a location", Toast.LENGTH_SHORT).show();
+
 
                 //Checking if FoodItem was inserted properly into DB
                 Boolean INSERT_OK;
@@ -147,7 +189,27 @@ public class AddFoodActivity extends AppCompatActivity {
 
 
                 }
+                break;
+
+            //Result from Places Autocomplete
+            case 100:
+                if(resultCode==RESULT_OK){
+                    //Place object of the user selected location
+                    selectedPlace = Autocomplete.getPlaceFromIntent(data);
+
+                    //Set TextView to display address of the selected location
+                    locationTextView.setText(selectedPlace.getAddress());
+
+                    //Set globabl vars
+                    locationID = selectedPlace.getId();
+                    locationAddress = selectedPlace.getAddress();
+                    locationLat = selectedPlace.getLatLng().latitude;
+                    locationLon = selectedPlace.getLatLng().longitude;
+
+                    isLocationSelected = true;
+                }
         }
 
+    }
     }
 }
