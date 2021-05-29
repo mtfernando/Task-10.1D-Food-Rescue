@@ -19,4 +19,9 @@
         android:id="@+id/toolbar_opt3"
         android:title="@string/toolbar_3"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/toolbar_opt4"
+        android:title="@string/toolbar_4"
+        app:showAsAction="never"/>
 </menu>
