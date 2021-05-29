@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.foodrescueapp.data.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
+    //Login page activity
 
     EditText usernameEditText, passwordEditText;
     Button loginBtn, signupBtn;

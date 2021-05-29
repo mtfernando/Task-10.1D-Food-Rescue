@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.example.foodrescueapp.data.DatabaseHelper;
 
 public class ListActivity extends AppCompatActivity {
+    //My List Activity
     String username;
     DatabaseHelper db;
     RecyclerView recyclerView;

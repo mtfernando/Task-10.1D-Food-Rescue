@@ -24,7 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class HomeActivity extends AppCompatActivity {
-
+    //Home Activity
     RecyclerView recyclerView;
     RecyclerViewAdapter recyclerViewAdapter;
     DatabaseHelper db;

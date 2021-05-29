@@ -38,6 +38,7 @@ import java.util.List;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class AddFoodActivity extends AppCompatActivity {
+    //Activity for a User to add a new food item to the App
 
     private static final String TAG = "image";
     DatabaseHelper db;

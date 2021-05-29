@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CalendarActivity extends AppCompatActivity {
+    //Calendar Activity for selecting the date when adding a food item
     CalendarView calendar;
     TextView dateTextView;
     Button selectDateButton;
