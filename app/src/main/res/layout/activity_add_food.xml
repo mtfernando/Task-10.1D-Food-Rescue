@@ -244,6 +244,8 @@
             app:layout_constraintStart_toEndOf="@+id/locationTextView"
             app:layout_constraintTop_toTopOf="parent" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <!--    Price Row-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

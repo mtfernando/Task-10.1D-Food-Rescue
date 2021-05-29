@@ -62,6 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Intent viewFoodIntent  = new Intent(context, ViewFoodActivity.class);
                 viewFoodIntent.putExtra("foodID", foodItemList.get(holder.getAdapterPosition()).getFoodID());
 
+                //Starting activity in parent context and getting result. Result will be handled in the parent context
                 ((AppCompatActivity) context).startActivityForResult(viewFoodIntent, Util.REQUEST_VIEW_FOOD);
             }
         });
