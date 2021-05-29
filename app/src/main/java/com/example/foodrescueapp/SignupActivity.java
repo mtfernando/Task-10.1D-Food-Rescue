@@ -13,7 +13,7 @@ import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.User;
 
 public class SignupActivity extends AppCompatActivity {
-
+    //Sign up page for new Users to be added to the App
     EditText fullNameEditText, phoneEditText, emailEditText, addressEditText, passwordEditText, confirmPasswordEditText;
     Button saveBtn;
     DatabaseHelper db;
