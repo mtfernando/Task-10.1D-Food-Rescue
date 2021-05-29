@@ -8,6 +8,11 @@ import java.io.ByteArrayOutputStream;
 public class Util {
 
     public static final String PLACES_API_KEY = "AIzaSyAuuYM85VQZh7Fs1Yw6mcwd2CmjFH8VVf4";
+
+    //Request codes for Activities
+    public static final int REQUEST_VIEW_FOOD = 1;
+    public static final int REQUEST_ADD_FOOD = 2;
+
     //All database constants defined here
 
     //The email address will be the username for a given user. This username

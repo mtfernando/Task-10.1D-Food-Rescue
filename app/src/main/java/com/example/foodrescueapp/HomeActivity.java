@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.FoodItem;
+import com.example.foodrescueapp.util.Util;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -77,10 +78,22 @@ public class HomeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==2){
-            if(data.getBooleanExtra("INSERT_OK", false)){
-                Toast.makeText(this, "Food Item was successfully added!", Toast.LENGTH_SHORT).show();
-                setRecyclerView();
+        //Proceeding only if result if there is a result
+        if(resultCode==RESULT_OK){
+
+            switch(requestCode){
+                case Util.REQUEST_ADD_FOOD:
+                    if(data.getBooleanExtra("INSERT_OK", false)){
+                        Toast.makeText(this, "Food Item was successfully added!", Toast.LENGTH_SHORT).show();
+                        setRecyclerView();
+                    }
+
+                    break;
+
+                case Util.REQUEST_VIEW_FOOD:
+                    //TODO: Handle result from viewing food item. Result might include to add to cart.
+                    foodIDList.add(data.getIntExtra("foodID", 0));
+                    break;
             }
         }
     }

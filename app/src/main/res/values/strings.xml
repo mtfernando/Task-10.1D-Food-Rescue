@@ -5,7 +5,7 @@
     <string name="toolbar_2">My Account</string>
     <string name="toolbar_3">My List</string>
     <string name="toolbar_4">Cart</string>
-    
+
     <string name="cart_food_name">Item</string>
     <string name="cart_number">No.</string>
     <string name="cart_price">Price</string>

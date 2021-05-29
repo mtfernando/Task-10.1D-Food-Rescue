@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodrescueapp.model.FoodItem;
@@ -53,6 +54,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         else{
             Toast.makeText(context, "No food items to show!", Toast.LENGTH_SHORT).show();
         }
+
+        //When an item in the RecyclerView is clicked it will show a full page activity containing the details of the Food Item
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewFoodIntent  = new Intent(context, ViewFoodActivity.class);
+                viewFoodIntent.putExtra("foodID", foodItemList.get(holder.getAdapterPosition()).getFoodID());
+
+                ((AppCompatActivity) context).startActivityForResult(viewFoodIntent, Util.REQUEST_VIEW_FOOD);
+            }
+        });
+
+
     }
 
     @Override
