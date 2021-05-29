@@ -1,14 +1,82 @@
 package com.example.foodrescueapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-public class ViewFoodActivity extends AppCompatActivity {
+import com.example.foodrescueapp.data.DatabaseHelper;
+import com.example.foodrescueapp.model.FoodItem;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class ViewFoodActivity extends AppCompatActivity implements OnMapReadyCallback{
+    TextView titleTextView, descTextView, dateTextView, timeTextView, qtyTextView;
+    ImageView foodImageView;
+    DatabaseHelper db;
+    FoodItem foodItem;
+    int foodIDfromIntent;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_food);
+
+        titleTextView = findViewById(R.id.VtitleTextView);
+        descTextView = findViewById(R.id.VdescTextView);
+        dateTextView = findViewById(R.id.VdateTextView);
+        timeTextView = findViewById(R.id.VtimeTextView);
+        qtyTextView = findViewById(R.id.VquantityTextView);
+        foodImageView = findViewById(R.id.VfoodImageView);
+
+        //Setting up the map
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+
+        mapFragment.getMapAsync(this);
+
+        Intent intent = getIntent();
+        foodIDfromIntent = intent.getIntExtra("foodID", 0);
+
+        //Getting the FoodItem object
+        foodItem = db.getFoodItem(foodIDfromIntent);
+
+        //Setup text views with relevant data
+        setPage();
     }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        //Set marker on map for location
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(foodItem.getLocationLatitude(), foodItem.getLocationLongitude()))
+                .title("Pick up location"));
+    }
+
+    public void setPage(){
+        //This method will set the text views and image view using the FoodItem object
+
+        //Setting Image
+        byte[] bitmapData = foodItem.getImageRes();
+        foodImageView.setImageBitmap(BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
+
+        //Setting text views
+        titleTextView.setText(foodItem.getTitle());
+        descTextView.setText(foodItem.getDescription());
+        dateTextView.setText(foodItem.getPickupDate());
+        timeTextView.setText(foodItem.getPickupTime());
+        qtyTextView.setText(foodItem.getQuantity());
+    }
+
 }

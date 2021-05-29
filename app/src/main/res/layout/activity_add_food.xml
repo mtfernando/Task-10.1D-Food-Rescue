@@ -144,7 +144,7 @@
         android:layout_gravity="left">
 
         <TextView
-            android:id="@+id/timeTextView"
+            android:id="@+id/VtimeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -168,7 +168,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/timeTextView"
+            app:layout_constraintStart_toEndOf="@+id/VtimeTextView"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -180,7 +180,7 @@
         android:layout_gravity="left">
 
         <TextView
-            android:id="@+id/quantityTextView"
+            android:id="@+id/VquantityTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -204,7 +204,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/quantityTextView"
+            app:layout_constraintStart_toEndOf="@+id/VquantityTextView"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -272,7 +272,7 @@
             android:id="@+id/priceEditText"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="Click here to search"
+            android:hint="eg: 15"
             android:layout_gravity="right"
             android:layout_marginStart="79dp"
             android:layout_marginEnd="16dp"

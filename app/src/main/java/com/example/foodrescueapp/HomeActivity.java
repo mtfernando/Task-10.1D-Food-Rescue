@@ -79,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         //Proceeding only if result if there is a result
-        if(resultCode==RESULT_OK){
+        if(!(resultCode==RESULT_CANCELED)){
 
             switch(requestCode){
                 case Util.REQUEST_ADD_FOOD:
