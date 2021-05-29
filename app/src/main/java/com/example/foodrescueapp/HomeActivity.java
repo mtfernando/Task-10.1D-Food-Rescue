@@ -22,6 +22,9 @@ import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.FoodItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class HomeActivity extends AppCompatActivity {
     //Home Activity
@@ -30,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
     DatabaseHelper db;
     FloatingActionButton addFoodItemButton;
     String username;
+    List<Integer> foodIDList = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +106,20 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             case R.id.toolbar_opt3: {
-                //My List is selected from aciton overflow
+                //My List is selected from action overflow
                 Intent listIntent = new Intent(HomeActivity.this, ListActivity.class);
                 listIntent.putExtra("username", username);
                 startActivity(listIntent);
 
                 break;
+            }
+
+            case R.id.toolbar_opt4: {
+                //My Cart is selected from action overflow
+                Intent cartIntent = new Intent(HomeActivity.this, CartActivity.class);
+                cartIntent.putIntegerArrayListExtra("foodIDList", (ArrayList<Integer>) foodIDList);
+
+                startActivity(cartIntent);
             }
         }
         return true;
