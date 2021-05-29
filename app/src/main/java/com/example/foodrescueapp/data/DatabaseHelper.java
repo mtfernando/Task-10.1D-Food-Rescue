@@ -187,6 +187,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final int locationLatIndex = c.getColumnIndex(Util.FOOD_LOCATION_LAT);
         final int locationLonIndex = c.getColumnIndex(Util.FOOD_LOCATION_LON);
         final int imageIndex = c.getColumnIndex(Util.FOOD_IMAGE_RES);
+        final int priceIndex = c.getColumnIndex(Util.FOOD_PRICE);
 
         try {
 
@@ -214,7 +215,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 byte[] bitmapData = c.getBlob(imageIndex);
                 final Bitmap imageRes = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
 
-                foodItemList.add(new FoodItem(title, description, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes));
+                final int price = c.getInt(priceIndex);
+
+                foodItemList.add(new FoodItem(title, description, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes, price));
 
             } while (c.moveToNext());
 
@@ -247,6 +250,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         final int locationLatIndex = c.getColumnIndex(Util.FOOD_LOCATION_LAT);
         final int locationLonIndex = c.getColumnIndex(Util.FOOD_LOCATION_LON);
         final int imageIndex = c.getColumnIndex(Util.FOOD_IMAGE_RES);
+        final int priceIndex = c.getColumnIndex(Util.FOOD_PRICE);
 
         try {
 
@@ -270,11 +274,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 final String locationAddress = c.getString(locationAddressIndex);
                 final double locationLat = c.getDouble(locationLatIndex);
                 final double locationLon = c.getDouble(locationLonIndex);
+                final int price = c.getInt(priceIndex);
 
                 byte[] bitmapData = c.getBlob(imageIndex);
                 Bitmap imageRes = (BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
 
-                foodItemList.add(new FoodItem(title, description, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes));
+                foodItemList.add(new FoodItem(title, description, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes, price));
 
             } while (c.moveToNext());
 

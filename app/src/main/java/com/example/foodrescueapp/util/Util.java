@@ -36,6 +36,7 @@ public class Util {
     public static final String FOOD_LOCATION_LAT = "food_location_latitude";
     public static final String FOOD_LOCATION_LON = "food_location_longitude";
     public static final String FOOD_IMAGE_RES = "food_image_resource";
+    public static final String FOOD_PRICE = "food_price";
 
     // All QUERIES HERE
 
@@ -50,7 +51,7 @@ public class Util {
             + " TEXT," + FOOD_IMAGE_RES + " TEXT," + FOOD_DATE + " TEXT," + FOOD_PICKUP_TIME
             + " TEXT," + FOOD_QUANTITY + " TEXT," + FOOD_LOCATION_ID + " TEXT,"
             + FOOD_LOCATION + " TEXT," + FOOD_LOCATION_LAT + " REAL,"+ FOOD_LOCATION_LON
-            + " REAL," + USERNAME + " TEXT)";
+            + " REAL," + FOOD_PRICE + " INTEGER," + USERNAME + " TEXT)";
     
     public static byte[] getBitmapAsByteArray(Bitmap bitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

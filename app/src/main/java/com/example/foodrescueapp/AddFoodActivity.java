@@ -47,7 +47,7 @@ public class AddFoodActivity extends AppCompatActivity {
     Button saveButton, addDateButton;
     ImageButton addImageButton;
     TextView locationSelectTextView;
-    EditText titleEditText, descEditText, timeEditText, quantityEditText;
+    EditText titleEditText, descEditText, timeEditText, quantityEditText, priceEditText;
     Bitmap imageRes;
     Place selectedPlace;
     Boolean isLocationSelected=false; //True if the user has selected a location
@@ -71,6 +71,7 @@ public class AddFoodActivity extends AppCompatActivity {
         timeEditText = findViewById(R.id.timeEditText);
         quantityEditText = findViewById(R.id.quantityEditText);
         locationSelectTextView = findViewById(R.id.locationSelectTextView);
+        priceEditText = findViewById(R.id.priceEditText);
 
         //Initialize DB
         db = new DatabaseHelper(this);
@@ -142,6 +143,13 @@ public class AddFoodActivity extends AppCompatActivity {
                 String desc = descEditText.getText().toString();
                 String time = timeEditText.getText().toString();
                 String quantity = quantityEditText.getText().toString();
+                String priceTemp = priceEditText.getText().toString();
+
+                Integer price = 0;
+                //Using the price if the user has provided it
+                if(!"".equals(priceTemp)){
+                    price = Integer.parseInt(priceTemp);
+                }
 
                 long result=-1;
                 //Variables relating to the location are set in OnActivityResult using the data given by Places Autocomplete
@@ -149,7 +157,7 @@ public class AddFoodActivity extends AppCompatActivity {
                 //Check if the user has selected a location
                 if(isLocationSelected){
                     //Create and insert FoodItem to DB
-                    FoodItem foodItem = new FoodItem(title, desc, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes);
+                    FoodItem foodItem = new FoodItem(title, desc, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes, price);
                     result = db.createFoodItem(db.getUser(username), foodItem);
                     db.close();
                 } else Toast.makeText(AddFoodActivity.this, "Please select a location", Toast.LENGTH_SHORT).show();

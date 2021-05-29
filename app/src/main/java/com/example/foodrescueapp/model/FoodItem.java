@@ -19,10 +19,11 @@ public class FoodItem {
     private String quantity;
     private Bitmap imageRes;
     private Integer foodID;
+    private Integer foodPrice;
 
     public FoodItem(String title, String description, String pickupDate, String pickupTime,
                     String locationID, String locationAddress, double locationLatitude,
-                    double locationLongitude, String quantity, Bitmap imageRes) {
+                    double locationLongitude, String quantity, Bitmap imageRes, Integer foodPrice) {
         this.title = title;
         this.description = description;
         this.pickupDate = pickupDate;
@@ -33,9 +34,14 @@ public class FoodItem {
         this.locationLatitude = locationLatitude;
         this.quantity = quantity;
         this.imageRes = imageRes;
+        this.foodPrice = foodPrice;
     }
 
     public FoodItem(){}
+
+    public Integer getPrice() { return foodPrice;}
+
+    public void setPrice(Integer newPrice){ this.foodPrice = newPrice;}
 
     public String getTitle() {
         return title;
