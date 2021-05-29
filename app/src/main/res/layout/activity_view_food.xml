@@ -1,9 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ViewFoodActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/add_image_button"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Food title appears here"/>
+
+<!--    Description Row-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Description"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+<!--    Date Row-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Description"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+<!--    Pick up times row-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Pick up times"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/timeTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Description"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+<!--    Quantity row-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/quantityTextView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Description"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+<!--    Location row-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="vertical"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"/>
+
+<!--       TODO:ADD MAP LAYOUT-->
+    </LinearLayout>
+
+</LinearLayout>
