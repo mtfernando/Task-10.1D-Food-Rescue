@@ -128,11 +128,11 @@
 
         <TextView
             android:id="@+id/VlocationTextView"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Location"
-            android:textSize="18sp" />
+            android:textSize="10dp" />
 
         <FrameLayout
             android:id="@+id/empty_frame_layout"

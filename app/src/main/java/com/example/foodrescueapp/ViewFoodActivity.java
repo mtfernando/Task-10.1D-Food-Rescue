@@ -84,6 +84,12 @@ public class ViewFoodActivity extends AppCompatActivity implements OnMapReadyCal
         //Initialize Map fragment
         Fragment fragment = new MapFragment();
 
+        //Bundle for LatLng
+        Bundle mapBundle = new Bundle();
+        mapBundle.putDouble("latitude", foodItem.getLocationLatitude());
+        mapBundle.putDouble("longitude", foodItem.getLocationLongitude());
+
+        fragment.setArguments(mapBundle);
         //Open fragment
         getSupportFragmentManager()
                 .beginTransaction()
