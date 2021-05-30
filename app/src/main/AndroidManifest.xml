@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodRescueApp">
-        <activity android:name=".ViewFoodActivity"></activity>
+        <activity android:name=".ViewFoodActivity"/>
         <activity android:name=".CartActivity" />
         <activity android:name=".ListActivity" />
         <activity android:name=".CalendarActivity" />
@@ -23,6 +23,10 @@
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/add_button" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAuuYM85VQZh7Fs1Yw6mcwd2CmjFH8VVf4"/>
 
         <activity android:name=".HomeActivity" />
         <activity android:name=".SignupActivity" />
