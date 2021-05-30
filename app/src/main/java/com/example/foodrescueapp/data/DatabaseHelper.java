@@ -186,7 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
 
                 // Read the values of a row in the table using the indexes acquired above
-                final String id = c.getString(idIndex);
+                final int id = c.getInt(idIndex);
                 final String title = c.getString(titleIndex);
                 final String description = c.getString(descIndex);
                 final String date = c.getString(dateIndex);
@@ -202,7 +202,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
                 final int price = c.getInt(priceIndex);
 
-                foodItemList.add(new FoodItem(title, description, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes, price));
+                foodItemList.add(new FoodItem(id, title, description, date, time, locationID, locationAddress, locationLat, locationLon, quantity, imageRes, price));
 
             } while (c.moveToNext());
 

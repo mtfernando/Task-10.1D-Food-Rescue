@@ -37,6 +37,23 @@ public class FoodItem {
         this.foodPrice = foodPrice;
     }
 
+    public FoodItem(int foodID, String title, String description, String pickupDate, String pickupTime,
+                    String locationID, String locationAddress, double locationLatitude,
+                    double locationLongitude, String quantity, Bitmap imageRes, Integer foodPrice) {
+        this.foodID = foodID;
+        this.title = title;
+        this.description = description;
+        this.pickupDate = pickupDate;
+        this.pickupTime = pickupTime;
+        this.locationID = locationID;
+        this.locationAddress = locationAddress;
+        this.locationLongitude = locationLongitude;
+        this.locationLatitude = locationLatitude;
+        this.quantity = quantity;
+        this.imageRes = imageRes;
+        this.foodPrice = foodPrice;
+    }
+
     public FoodItem(){}
 
     public Integer getPrice() { return foodPrice;}
