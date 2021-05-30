@@ -3,6 +3,7 @@ package com.example.foodrescueapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import com.example.foodrescueapp.util.Util;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-
+    public static final String TAG = "RecyclerViewAdapter";
     private List<FoodItem> foodItemList;
     private Context context;
 
@@ -59,8 +60,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Getting the FoodID of the selected item
+                int foodID = foodItemList.get(holder.getAdapterPosition()).getFoodID();
+                Log.i(TAG, "FoodID from selected item = " + String.valueOf(foodID));
                 Intent viewFoodIntent  = new Intent(context, ViewFoodActivity.class);
-                viewFoodIntent.putExtra("foodID", foodItemList.get(holder.getAdapterPosition()).getFoodID());
+                viewFoodIntent.putExtra("foodID", foodID);
 
                 //Starting activity in parent context and getting result. Result will be handled in the parent context
                 ((AppCompatActivity) context).startActivityForResult(viewFoodIntent, Util.REQUEST_VIEW_FOOD);

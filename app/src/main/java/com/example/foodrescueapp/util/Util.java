@@ -22,7 +22,6 @@ public class Util {
     public static final String DATABASE_NAME = "user_db";
     public static final String USER_TABLE_NAME = "users";
     public static final String FOOD_TABLE_NAME = "food";
-    public static final String USER_FOOD_TABLE_NAME = "users_food";
 
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";

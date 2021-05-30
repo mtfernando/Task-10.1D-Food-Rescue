@@ -27,6 +27,7 @@ import java.util.ListIterator;
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+    public static final String TAG = "DatabaseHelper";
     public DatabaseHelper(Context context) {
         super(context, Util.DATABASE_NAME, null, Util.DATABASE_VERSION);
     }
@@ -77,6 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(Util.FOOD_LOCATION_LON, foodItem.getLocationLongitude());
         values.put(Util.FOOD_QUANTITY, foodItem.getQuantity());
         values.put(Util.FOOD_IMAGE_RES, foodItem.getImageRes());
+        values.put(Util.FOOD_PRICE, foodItem.getPrice());
         values.put(Util.USERNAME, user.getUsername());
 
         //Inserting row into foodItem table
@@ -86,29 +88,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //long linkingResult = createUserFoodEntry(user, foodItem);
 
         return  result;
-    }
-
-    //Returns a list of foodID for a given username from user_food table
-    public String[] getFoodIDList(String username){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        //Fetching from USER_FOOD_TABLE
-        String FETCH_FOOD_ID = "SELECT * FROM" + Util.USER_FOOD_TABLE_NAME + " WHERE "
-                + Util.USERNAME + " = \"" + username + "\"";
-
-        Cursor c = db.rawQuery(FETCH_FOOD_ID, null);
-
-        String[] foodIDArray = new String[c.getCount()];
-        Integer i = 0;
-
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-            foodIDArray[i] = c.getString(c.getColumnIndex(Util.FOOD_ID));
-            i++;
-            c.moveToNext();
-        }
-
-        return foodIDArray;
     }
 
     //Returns the User object for a given username
@@ -141,32 +120,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Returns the foodItem for a given foodID
     public FoodItem getFoodItem(Integer foodID){
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
 
-        String FETCH_FOOD_ITEM = "SELECT * FROM " + Util.FOOD_TABLE_NAME + " WHERE " + Util.FOOD_ID + " = \"" + foodID + "\"";
+        String FETCH_FOOD_ITEM = "SELECT * FROM " + Util.FOOD_TABLE_NAME + " WHERE " + Util.FOOD_ID + " = " + foodID;
 
         Cursor c = db.rawQuery(FETCH_FOOD_ITEM, null);
 
-        if(c!=null) c.moveToFirst();
+        if(c!=null)
+            if(c.moveToFirst()){
 
-        //Creating FoodItem object from cursor
-        FoodItem foodItem = new FoodItem();
-        foodItem.setFoodID(c.getInt(c.getColumnIndex(Util.FOOD_ID)));
-        foodItem.setTitle(c.getString(c.getColumnIndex(Util.FOOD_TITLE)));
-        foodItem.setDescription(c.getString(c.getColumnIndex(Util.FOOD_DESCRIPTION)));
+                //Creating FoodItem object from cursor
+                FoodItem foodItem = new FoodItem();
 
-        byte[] bitmapData = c.getBlob(c.getColumnIndex(Util.FOOD_IMAGE_RES));
-        foodItem.setImageRes(BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
+                foodItem.setFoodID(c.getInt(c.getColumnIndex(Util.FOOD_ID)));
+                foodItem.setTitle(c.getString(c.getColumnIndex(Util.FOOD_TITLE)));
+                foodItem.setDescription(c.getString(c.getColumnIndex(Util.FOOD_DESCRIPTION)));
 
-        foodItem.setLocationID(c.getString(c.getColumnIndex(Util.FOOD_LOCATION_ID)));
-        foodItem.setLocationAddress(c.getString(c.getColumnIndex(Util.FOOD_LOCATION)));
-        foodItem.setLocationLatitude(c.getDouble(c.getColumnIndex(Util.FOOD_LOCATION_LAT)));
-        foodItem.setLocationLongitude(c.getDouble(c.getColumnIndex(Util.FOOD_LOCATION_LON)));
-        foodItem.setPickupDate(c.getString(c.getColumnIndex(Util.FOOD_DATE)));
-        foodItem.setPickupTime(c.getString(c.getColumnIndex(Util.FOOD_PICKUP_TIME)));
-        foodItem.setQuantity(c.getString(c.getColumnIndex(Util.FOOD_QUANTITY)));
+                byte[] bitmapData = c.getBlob(c.getColumnIndex(Util.FOOD_IMAGE_RES));
+                foodItem.setImageRes(BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length));
 
-        return foodItem;
+                foodItem.setLocationID(c.getString(c.getColumnIndex(Util.FOOD_LOCATION_ID)));
+                foodItem.setLocationAddress(c.getString(c.getColumnIndex(Util.FOOD_LOCATION)));
+                foodItem.setLocationLatitude(c.getDouble(c.getColumnIndex(Util.FOOD_LOCATION_LAT)));
+                foodItem.setLocationLongitude(c.getDouble(c.getColumnIndex(Util.FOOD_LOCATION_LON)));
+                foodItem.setPickupDate(c.getString(c.getColumnIndex(Util.FOOD_DATE)));
+                foodItem.setPickupTime(c.getString(c.getColumnIndex(Util.FOOD_PICKUP_TIME)));
+                foodItem.setQuantity(c.getString(c.getColumnIndex(Util.FOOD_QUANTITY)));
+                foodItem.setPrice(c.getInt(c.getColumnIndex(Util.FOOD_PRICE)));
+
+                return foodItem;
+            } else Log.e(TAG, "Cursor is empty.");
+
+        return null;
     }
 
     public List<FoodItem> getAllFoodItems(){
