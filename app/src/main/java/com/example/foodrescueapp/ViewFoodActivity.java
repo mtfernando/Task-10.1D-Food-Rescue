@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,8 +22,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.sql.RowId;
 
-public class ViewFoodActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class ViewFoodActivity extends AppCompatActivity{
     TextView titleTextView, descTextView, dateTextView, timeTextView, qtyTextView, locationTextView;
+    Button cartButton;
     ImageView foodImageView;
     DatabaseHelper db;
     FoodItem foodItem;
@@ -41,6 +43,7 @@ public class ViewFoodActivity extends AppCompatActivity implements OnMapReadyCal
         qtyTextView = findViewById(R.id.VquantityTextView);
         foodImageView = findViewById(R.id.VfoodImageView);
         locationTextView = findViewById(R.id.VlocationTextView);
+        cartButton = findViewById(R.id.cartButton);
 
         //Initialize DB
         db = new DatabaseHelper(this);
@@ -54,16 +57,6 @@ public class ViewFoodActivity extends AppCompatActivity implements OnMapReadyCal
 
         //Setup text views with relevant data
         setPage();
-    }
-
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        //Set marker on map for location
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(foodItem.getLocationLatitude(), foodItem.getLocationLongitude()))
-                .title("Pick up location"));
     }
 
     public void setPage(){
@@ -96,5 +89,4 @@ public class ViewFoodActivity extends AppCompatActivity implements OnMapReadyCal
                 .replace(R.id.empty_frame_layout, fragment)
                 .commit();
     }
-
 }
