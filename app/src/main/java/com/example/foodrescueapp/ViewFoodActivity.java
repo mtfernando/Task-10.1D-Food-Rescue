@@ -1,6 +1,7 @@
 package com.example.foodrescueapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
@@ -18,8 +19,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.sql.RowId;
+
 public class ViewFoodActivity extends AppCompatActivity implements OnMapReadyCallback{
-    TextView titleTextView, descTextView, dateTextView, timeTextView, qtyTextView;
+    TextView titleTextView, descTextView, dateTextView, timeTextView, qtyTextView, locationTextView;
     ImageView foodImageView;
     DatabaseHelper db;
     FoodItem foodItem;
@@ -37,13 +40,12 @@ public class ViewFoodActivity extends AppCompatActivity implements OnMapReadyCal
         timeTextView = findViewById(R.id.VtimeTextView);
         qtyTextView = findViewById(R.id.VquantityTextView);
         foodImageView = findViewById(R.id.VfoodImageView);
+        locationTextView = findViewById(R.id.VlocationTextView);
 
-        //Setting up the map
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        //Initialize DB
+        db = new DatabaseHelper(this);
 
-        mapFragment.getMapAsync(this);
-
+        //Get data from Intent
         Intent intent = getIntent();
         foodIDfromIntent = intent.getIntExtra("foodID", 0);
 
@@ -77,6 +79,16 @@ public class ViewFoodActivity extends AppCompatActivity implements OnMapReadyCal
         dateTextView.setText(foodItem.getPickupDate());
         timeTextView.setText(foodItem.getPickupTime());
         qtyTextView.setText(foodItem.getQuantity());
+        locationTextView.setText("Location: " + foodItem.getLocationAddress());
+
+        //Initialize Map fragment
+        Fragment fragment = new MapFragment();
+
+        //Open fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.empty_frame_layout, fragment)
+                .commit();
     }
 
 }
