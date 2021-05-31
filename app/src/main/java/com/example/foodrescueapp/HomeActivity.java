@@ -94,13 +94,23 @@ public class HomeActivity extends AppCompatActivity {
 
                 case Util.REQUEST_VIEW_FOOD:
                     //TODO: Handle result from viewing food item. Result might include to add to cart.
-                    int foodIDFromResult = data.getIntExtra("foodID", -1);
+                    Integer foodIDFromResult = data.getIntExtra("foodID", -1);
 
                     //If no errors in result, add to cart.
                     if(foodIDFromResult>-1){
-                        cartIDList.add(foodIDFromResult);
-                        Toast.makeText(this, "Item added to cart!", Toast.LENGTH_SHORT).show();
-                        Log.i(TAG, "Added to cartIDList, foodID = " + foodIDFromResult);
+
+                        //Check if FoodID is already in the cart
+                        if(cartIDList.contains(foodIDFromResult)){
+                            Toast.makeText(this, "Item already in cart!", Toast.LENGTH_SHORT).show();
+                            Log.i(TAG, "Item already exists in cart. FoodID = " + foodIDFromResult);
+                        }
+                        //Add item to cart, if it hasn't already been added
+                        else{
+                            cartIDList.add(foodIDFromResult);
+                            Toast.makeText(this, "Item added to cart!", Toast.LENGTH_SHORT).show();
+                            Log.i(TAG, "Added to cartIDList, foodID = " + foodIDFromResult);
+                        }
+
                     }
                     else{
                         //If foodID is negative, which it cannot be, then Log the error and provide toast to user
