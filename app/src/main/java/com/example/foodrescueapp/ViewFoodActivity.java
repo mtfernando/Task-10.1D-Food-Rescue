@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,6 +58,17 @@ public class ViewFoodActivity extends AppCompatActivity{
 
         //Setup text views with relevant data
         setPage();
+
+        //When add to cart is clicked
+        cartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("foodID", foodIDfromIntent);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 
     public void setPage(){

@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,13 +29,14 @@ import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity {
+    public static final String TAG = "HomeActivity";
     //Home Activity
     RecyclerView recyclerView;
     RecyclerViewAdapter recyclerViewAdapter;
     DatabaseHelper db;
     FloatingActionButton addFoodItemButton;
     String username;
-    List<Integer> foodIDList = new ArrayList<Integer>();
+    List<Integer> cartIDList = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,19 @@ public class HomeActivity extends AppCompatActivity {
 
                 case Util.REQUEST_VIEW_FOOD:
                     //TODO: Handle result from viewing food item. Result might include to add to cart.
-                    foodIDList.add(data.getIntExtra("foodID", 0));
+                    int foodIDFromResult = data.getIntExtra("foodID", -1);
+
+                    //If no errors in result, add to cart.
+                    if(foodIDFromResult>-1){
+                        cartIDList.add(foodIDFromResult);
+                        Toast.makeText(this, "Item added to cart!", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "Added to cartIDList, foodID = " + foodIDFromResult);
+                    }
+                    else{
+                        //If foodID is negative, which it cannot be, then Log the error and provide toast to user
+                        Toast.makeText(this, "Error! couldn't add item to cart", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG,"Item was not added to cart. Returned foodID from REQUEST_VIEW_FOOD: " + foodIDFromResult);
+                    }
                     break;
             }
         }
@@ -130,7 +144,7 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.toolbar_opt4: {
                 //My Cart is selected from action overflow
                 Intent cartIntent = new Intent(HomeActivity.this, CartActivity.class);
-                cartIntent.putIntegerArrayListExtra("foodIDList", (ArrayList<Integer>) foodIDList);
+                cartIntent.putIntegerArrayListExtra("foodIDList", (ArrayList<Integer>) cartIDList);
 
                 startActivity(cartIntent);
             }
