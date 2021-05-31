@@ -52,9 +52,7 @@ public class AddFoodActivity extends AppCompatActivity {
     Place selectedPlace;
     Boolean isLocationSelected=false; //True if the user has selected a location
 
-    public static final int RESULT_CALENDAR = 1;
-    private final static int RESULT_LOAD_IMAGE = 2;
-    private final static int PERMISSION_REQUEST = 3;
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,11 +112,11 @@ public class AddFoodActivity extends AppCompatActivity {
                 //Get Internal storage permissions from user
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED){
-                    requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST);
+                    requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, Util.REQUEST_PERMISSION);
                 }
 
                 Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                startActivityForResult(i, Util.REQUEST_LOAD_IMAGE);
             }
         });
 
@@ -126,7 +124,7 @@ public class AddFoodActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent calendarIntent = new Intent(AddFoodActivity.this, CalendarActivity.class);
-                startActivityForResult(calendarIntent, 1);
+                startActivityForResult(calendarIntent, Util.REQUEST_CALENDAR);
             }
         });
 
@@ -172,7 +170,7 @@ public class AddFoodActivity extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 intent.putExtra("INSERT_OK", INSERT_OK);
-                setResult(2, intent);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
@@ -185,13 +183,13 @@ public class AddFoodActivity extends AppCompatActivity {
         //Getting the date result from CalendarActivity
         switch (requestCode) {
 
-            case RESULT_CALENDAR:
+            case Util.REQUEST_CALENDAR:
                 date = data.getStringExtra("date");
                 Toast.makeText(AddFoodActivity.this, "Chosen date is " + date, Toast.LENGTH_LONG).show();
                 break;
 
             //Handle the return of the selected food image
-            case RESULT_LOAD_IMAGE:
+            case Util.REQUEST_LOAD_IMAGE:
                 if (resultCode == RESULT_OK) {
 
                     try {
@@ -210,7 +208,7 @@ public class AddFoodActivity extends AppCompatActivity {
                 break;
 
             //Result from Places Autocomplete
-            case 100:
+            case Util.REQUEST_PLACES:
                 if(resultCode==RESULT_OK){
                     //Place object of the user selected location
                     selectedPlace = Autocomplete.getPlaceFromIntent(data);

@@ -10,8 +10,12 @@ public class Util {
     public static final String PLACES_API_KEY = "AIzaSyAuuYM85VQZh7Fs1Yw6mcwd2CmjFH8VVf4";
 
     //Request codes for Activities
-    public static final int REQUEST_VIEW_FOOD = 1;
-    public static final int REQUEST_ADD_FOOD = 2;
+    public static final int REQUEST_CALENDAR = 1;
+    public final static int REQUEST_LOAD_IMAGE = 2;
+    public final static int REQUEST_PERMISSION = 3;
+    public static final int REQUEST_VIEW_FOOD = 4;
+    public static final int REQUEST_ADD_FOOD = 5;
+    public static final int REQUEST_PLACES = 100;
 
     //All database constants defined here
 
