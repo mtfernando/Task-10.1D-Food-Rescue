@@ -154,6 +154,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
+    //Returns a list of FoodItem objects for a given Food ID List
+    public List<FoodItem> getFoodItems(List<Integer> foodIDList){
+        List<FoodItem> foodItemList = new ArrayList<FoodItem>();
+
+        //Loop through the provided foodIDList to create a new list of FoodItems.
+        for(Integer foodID : foodIDList){
+            foodItemList.add(getFoodItem(foodID));
+        }
+
+        return foodItemList;
+    }
+
+    //Returns all foodItem objects from the Database
     public List<FoodItem> getAllFoodItems(){
         SQLiteDatabase db = getWritableDatabase();
         String FETCH_ALL_FOOD = "SELECT * FROM " + Util.FOOD_TABLE_NAME;
