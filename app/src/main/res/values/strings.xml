@@ -9,6 +9,7 @@
     <string name="cart_food_name">Item</string>
     <string name="cart_number">No.</string>
     <string name="cart_price">Price</string>
+    <string name="cart_total">Total:</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
