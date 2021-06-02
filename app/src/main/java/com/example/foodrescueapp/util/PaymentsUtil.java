@@ -27,7 +27,7 @@ public class PaymentsUtil {
     //Creating a new PaymentsClient
     public static PaymentsClient createPaymentsClient(Activity activity) {
         Wallet.WalletOptions walletOptions =
-                new Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_TEST).build();
+                new Wallet.WalletOptions.Builder().setEnvironment(Constants.PAYMENTS_ENVIRONMENT).build();
         return Wallet.getPaymentsClient(activity, walletOptions);
     }
 
@@ -70,27 +70,27 @@ public class PaymentsUtil {
         return transactionInfo;
     }
 
-        //Creating a enw payments request
-        @RequiresApi(api = Build.VERSION_CODES.N)
-        public static Optional<JSONObject> getPaymentDataRequest(Integer priceInteger) {
+    //Creating a enw payments request
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static Optional<JSONObject> getPaymentDataRequest(Integer priceInteger) {
 
-        //PaymentDataRequest requires three parameters apiVersiona nd apiVersionMinor (provided from getBaseRequest),
-            //merchantInfo, allowedPaymentMethods
-            //See docs: https://developers.google.com/pay/api/web/reference/request-objects
-            final String price = priceInteger.toString();
+    //PaymentDataRequest requires four parameters apiVersion and apiVersionMinor (provided from getBaseRequest),
+        //merchantInfo, allowedPaymentMethods
+        //See docs: https://developers.google.com/pay/api/web/reference/request-objects
+        final String price = priceInteger.toString();
 
-            try {
-                JSONObject paymentDataRequest = PaymentsUtil.getBaseRequest();
-                paymentDataRequest.put(
-                        "allowedPaymentMethods", new JSONArray().put(PaymentsUtil.getCardPaymentMethod()));
-                paymentDataRequest.put("transactionInfo", PaymentsUtil.getTransactionInfo(price));
-                paymentDataRequest.put("merchantInfo", PaymentsUtil.getMerchantInfo());
+        try {
+            JSONObject paymentDataRequest = PaymentsUtil.getBaseRequest();
+            paymentDataRequest.put(
+                    "allowedPaymentMethods", new JSONArray().put(PaymentsUtil.getCardPaymentMethod()));
+            paymentDataRequest.put("transactionInfo", PaymentsUtil.getTransactionInfo(price));
+            paymentDataRequest.put("merchantInfo", PaymentsUtil.getMerchantInfo());
 
-                return Optional.of(paymentDataRequest);
+            return Optional.of(paymentDataRequest);
 
-            } catch (JSONException e) {
-                return Optional.empty();
-            }
+        } catch (JSONException e) {
+            return Optional.empty();
         }
     }
 }
+

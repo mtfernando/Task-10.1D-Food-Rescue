@@ -16,6 +16,7 @@ public class Util {
     public static final int REQUEST_VIEW_FOOD = 4;
     public static final int REQUEST_ADD_FOOD = 5;
     public static final int REQUEST_PLACES = 100;
+    public static final int REQUEST_PAYMENT = 200;
 
     //All database constants defined here
 
