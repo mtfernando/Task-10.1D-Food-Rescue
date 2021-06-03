@@ -1,10 +1,12 @@
 package com.example.foodrescueapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,9 @@ import android.widget.TextView;
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.FoodItem;
 import com.example.foodrescueapp.util.PaymentsUtil;
+import com.example.foodrescueapp.util.Util;
+import com.google.android.gms.wallet.AutoResolveHelper;
+import com.google.android.gms.wallet.PaymentDataRequest;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
@@ -23,6 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CartActivity extends AppCompatActivity {
     //Cart Activity
@@ -34,8 +40,7 @@ public class CartActivity extends AppCompatActivity {
     Integer cartTotalPrice;
     DatabaseHelper db;
     TextView totalPriceTextView;
-    private PaymentsClient paymentsClient;
-    ImageButton gPayButton;
+    ImageButton googlePayButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +51,7 @@ public class CartActivity extends AppCompatActivity {
 
         //Get views
         totalPriceTextView = findViewById(R.id.cartTotalPriceTextView);
-        gPayButton = findViewById(R.id.gPayButton);
+        googlePayButton = findViewById(R.id.gPayButton);
 
         //Get Food ID List from HomeActivity
         Intent intent = getIntent();
@@ -65,30 +70,21 @@ public class CartActivity extends AppCompatActivity {
         cartTotalPrice = getTotalPrice(foodIDList);
         totalPriceTextView.setText("$" + cartTotalPrice.toString());
 
-        //Setting up the PaymentsClient
-        Wallet.WalletOptions walletOptions = new Wallet.WalletOptions.Builder()
-                .setEnvironment(WalletConstants.ENVIRONMENT_TEST)
-                .build();
-
-        paymentsClient = PaymentsUtil.createPaymentsClient(this);
-
         //IsReadyToPayRequest API was not added since this is a Test environment
 
-        gPayButton.setOnClickListener(new View.OnClickListener() {
+        googlePayButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                JSONObject paymentRequest;
-                try{
-                    paymentRequest = PaymentsUtil.getBaseRequest();
-                }
-                catch (JSONException e){
-                    Log.e(TAG, "onClick: JSON Exception");
-                }
+                //Display GPay overlay with transaction details
+                Log.i(TAG, "gPay button pressed");
+                PaymentsUtil.requestPayment(getApplicationContext(), cartTotalPrice, v);
             }
         });
 
     }
 
+    //Calculate total price of the items added to the cart
     public Integer getTotalPrice(List<Integer> foodIDList){
         Integer totalPrice = -1;
 
@@ -98,7 +94,10 @@ public class CartActivity extends AppCompatActivity {
         }
 
         //Error handling to ensure proper total price was returned from the cart.
-        if(totalPrice<0) Log.e(TAG, "getTotalPrice: Returned -1. Check function body.");
+        if(totalPrice<0){
+            Log.i(TAG, "getTotalPrice: Returned less than 0. Check function body. Cart may be empty.");
+            totalPrice = 0;
+        }
         else Log.i(TAG, "Total price of cart = " + totalPrice);
         return totalPrice;
     }

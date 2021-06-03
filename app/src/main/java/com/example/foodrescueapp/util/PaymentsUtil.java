@@ -1,11 +1,16 @@
 package com.example.foodrescueapp.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.foodrescueapp.Constants;
+import com.google.android.gms.wallet.AutoResolveHelper;
+import com.google.android.gms.wallet.PaymentDataRequest;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
@@ -19,7 +24,7 @@ import java.util.Optional;
 public class PaymentsUtil {
     //All utilities requires for Google Pay
 
-    public static JSONObject getBaseRequest() throws JSONException{
+    private static JSONObject getBaseRequest() throws JSONException{
         return new JSONObject().put("apiVersion", 2).put("apiVersionMinor", 0);
     }
 
@@ -91,6 +96,30 @@ public class PaymentsUtil {
         } catch (JSONException e) {
             return Optional.empty();
         }
+    }
+
+    //Requesting a payment from the user displaying overlay with transaction information
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void requestPayment(Context context, Integer price, View view) {
+
+        //Get activity from context that is using the payment utility
+        Activity activity = (Activity) context;
+        PaymentsClient paymentsClient = PaymentsUtil.createPaymentsClient(activity);
+
+        //Get PaymentRequest and make sure a JSON object was returned
+        Optional<JSONObject> paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(price);
+        if (!paymentDataRequestJson.isPresent()) {
+            return;
+        }
+
+        PaymentDataRequest request = PaymentDataRequest.fromJson(paymentDataRequestJson.get().toString());
+
+        if (request != null) {
+            AutoResolveHelper.resolveTask(
+                    paymentsClient.loadPaymentData(request),
+                    activity, Util.REQUEST_PAYMENT);
+        }
+
     }
 }
 
