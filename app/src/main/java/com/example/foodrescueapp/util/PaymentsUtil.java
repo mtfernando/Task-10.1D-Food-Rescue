@@ -100,10 +100,9 @@ public class PaymentsUtil {
 
     //Requesting a payment from the user displaying overlay with transaction information
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void requestPayment(Context context, Integer price, View view) {
+    public static void requestPayment(Activity activity, Integer price, View view) {
 
         //Get activity from context that is using the payment utility
-        Activity activity = (Activity) context;
         PaymentsClient paymentsClient = PaymentsUtil.createPaymentsClient(activity);
 
         //Get PaymentRequest and make sure a JSON object was returned

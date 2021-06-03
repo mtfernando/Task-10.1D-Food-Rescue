@@ -80,7 +80,7 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Display GPay overlay with transaction details
                 Log.i(TAG, "gPay button pressed");
-                PaymentsUtil.requestPayment(getApplicationContext(), cartTotalPrice, v);
+                PaymentsUtil.requestPayment(CartActivity.this, cartTotalPrice, v);
             }
         });
 

@@ -81,7 +81,7 @@ public class ViewFoodActivity extends AppCompatActivity{
             public void onClick(View v) {
                 //Display GPay overlay with transaction details
                 Log.i(TAG, "gPay button pressed");
-                PaymentsUtil.requestPayment(getApplicationContext(), foodPrice, v);
+                PaymentsUtil.requestPayment(ViewFoodActivity.this, foodPrice, v);
             }
         });
     }
@@ -99,6 +99,7 @@ public class ViewFoodActivity extends AppCompatActivity{
         locationTextView = findViewById(R.id.VlocationTextView);
         cartButton = findViewById(R.id.cartButton);
         priceTextView = findViewById(R.id.VpriceTextView);
+        googlePayButton = findViewById(R.id.VgPayButton);
 
         //Setting Image
         byte[] bitmapData = foodItem.getImageRes();
