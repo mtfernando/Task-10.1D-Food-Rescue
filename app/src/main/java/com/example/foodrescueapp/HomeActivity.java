@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
                 Intent addFoodInent = new Intent(HomeActivity.this, AddFoodActivity.class);
                 addFoodInent.putExtra("user", username);
 
-                startActivityForResult(addFoodInent, 2);
+                startActivityForResult(addFoodInent, Util.REQUEST_ADD_FOOD);
             }
         });
     }
@@ -87,6 +87,8 @@ public class HomeActivity extends AppCompatActivity {
                 case Util.REQUEST_ADD_FOOD:
                     if(data.getBooleanExtra("INSERT_OK", false)){
                         Toast.makeText(this, "Food Item was successfully added!", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "onActivityResult: Food Item added successfully");
+
                         setRecyclerView();
                     }
 
