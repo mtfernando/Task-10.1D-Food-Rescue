@@ -1,5 +1,6 @@
 package com.example.foodrescueapp;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.FoodItem;
@@ -100,5 +102,29 @@ public class CartActivity extends AppCompatActivity {
         }
         else Log.i(TAG, "Total price of cart = " + totalPrice);
         return totalPrice;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode){
+            case Util.REQUEST_PAYMENT:
+                switch(resultCode){
+                    case RESULT_OK:
+                        Toast.makeText(this, "Payment success!", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "onActivityResult: Payment successful");
+                        break;
+
+                    case RESULT_CANCELED:
+                        Toast.makeText(this, "Payment cancelled", Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "onActivityResult: Payment cancelled");
+                        break;
+
+                    case AutoResolveHelper.RESULT_ERROR:
+                        Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onActivityResult: Payment error!");
+                }
+        }
     }
 }
