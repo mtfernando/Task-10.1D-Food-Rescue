@@ -49,7 +49,7 @@ public class CalendarActivity extends AppCompatActivity {
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Toast.makeText(CalendarActivity.this, dayOfMonth + "/" + month+1 + "/" + year, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CalendarActivity.this, dayOfMonth + "/" + (month+1) + "/" + year, Toast.LENGTH_SHORT).show();
                 date = String.valueOf(dayOfMonth) + "/" + String.valueOf(month+1) + "/" + String.valueOf(year);
 
                 dateTextView.setText(date);
