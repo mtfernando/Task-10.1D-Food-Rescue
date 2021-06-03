@@ -3,6 +3,7 @@ package com.example.foodrescueapp.util;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.RequiresApi;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 import java.util.Optional;
 
 public class PaymentsUtil {
+    public static final String TAG = "PaymentsUtil";
     //All utilities requires for Google Pay
 
     private static JSONObject getBaseRequest() throws JSONException{
@@ -48,6 +50,16 @@ public class PaymentsUtil {
         return new JSONArray(Constants.SUPPORTED_NETWORKS);
     }
 
+    private static JSONObject getGatewayTokenizationSpecification() throws JSONException {
+        return new JSONObject() {{
+            put("type", "PAYMENT_GATEWAY");
+            put("parameters", new JSONObject() {{
+                put("gateway", "example");
+                put("gatewayMerchantId", "exampleGatewayMerchantId");
+            }});
+        }};
+    }
+
     private static JSONObject getCardPaymentMethod() throws JSONException {
         JSONObject cardPaymentMethod = new JSONObject();
         cardPaymentMethod.put("type", "CARD");
@@ -56,6 +68,7 @@ public class PaymentsUtil {
         parameters.put("allowedAuthMethods", getAllowedCardAuthMethods());
         parameters.put("allowedCardNetworks", getAllowedCardNetworks());
         cardPaymentMethod.put("parameters", parameters);
+        cardPaymentMethod.put("tokenizationSpecification", getGatewayTokenizationSpecification());
 
         return cardPaymentMethod;
     }
@@ -94,6 +107,7 @@ public class PaymentsUtil {
             return Optional.of(paymentDataRequest);
 
         } catch (JSONException e) {
+            Log.i(TAG, "getPaymentDataRequest: getPaymentDataRequest is returning Optional.empty()");
             return Optional.empty();
         }
     }
@@ -108,6 +122,7 @@ public class PaymentsUtil {
         //Get PaymentRequest and make sure a JSON object was returned
         Optional<JSONObject> paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(price);
         if (!paymentDataRequestJson.isPresent()) {
+            Log.e(TAG, "requestPayment: getPaymentDataRequest is not present");
             return;
         }
 

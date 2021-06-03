@@ -22,6 +22,7 @@ import com.example.foodrescueapp.data.DatabaseHelper;
 import com.example.foodrescueapp.model.FoodItem;
 import com.example.foodrescueapp.util.PaymentsUtil;
 import com.example.foodrescueapp.util.Util;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -150,6 +151,11 @@ public class ViewFoodActivity extends AppCompatActivity{
                     case AutoResolveHelper.RESULT_ERROR:
                         Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "onActivityResult: Payment error!");
+
+                        //Log error status code
+                        Status status = AutoResolveHelper.getStatusFromIntent(data);
+                        Log.e("loadPaymentData failed", String.format("Error code: %d", status.getStatusCode()));
+                        Log.e("loadPaymentData failed", String.format("Error messaage: %d", status.getStatusMessage()));
                 }
         }
     }
