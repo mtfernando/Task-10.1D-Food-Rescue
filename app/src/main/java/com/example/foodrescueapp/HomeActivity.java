@@ -102,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     //Remove the foodItem from DB if it has been paid for
                     if(itemPurchased){
-                        
+
                         Log.i(TAG, "GPay Successful. Deleting FoodItem from DB.");
                         //Returns the number of rows deleted
                         int rowDeleteResult = db.deleteFoodItem(foodIDFromResult);
