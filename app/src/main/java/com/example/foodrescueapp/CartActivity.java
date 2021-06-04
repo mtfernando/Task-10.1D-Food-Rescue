@@ -101,7 +101,7 @@ public class CartActivity extends AppCompatActivity {
             totalPrice = 0;
         }
         else Log.i(TAG, "Total price of cart = " + totalPrice);
-        return totalPrice;
+        return totalPrice+1;
     }
 
     @Override
