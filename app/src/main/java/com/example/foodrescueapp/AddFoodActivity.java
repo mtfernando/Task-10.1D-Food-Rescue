@@ -202,8 +202,6 @@ public class AddFoodActivity extends AppCompatActivity {
                     catch (Exception e) {
                         e.printStackTrace();
                     }
-
-
                 }
                 break;
 

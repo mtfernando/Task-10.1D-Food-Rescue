@@ -15,6 +15,7 @@ public class Util {
     public final static int REQUEST_PERMISSION = 3;
     public static final int REQUEST_VIEW_FOOD = 4;
     public static final int REQUEST_ADD_FOOD = 5;
+    public static final int REQUEST_CART_VIEW = 6;
     public static final int REQUEST_PLACES = 100;
     public static final int REQUEST_PAYMENT = 200;
 

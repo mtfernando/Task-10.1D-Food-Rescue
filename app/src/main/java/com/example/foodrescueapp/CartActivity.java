@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,7 @@ public class CartActivity extends AppCompatActivity {
     DatabaseHelper db;
     TextView totalPriceTextView;
     ImageButton googlePayButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +90,7 @@ public class CartActivity extends AppCompatActivity {
 
     //Calculate total price of the items added to the cart
     public Integer getTotalPrice(List<Integer> foodIDList){
-        Integer totalPrice = -1;
+        Integer totalPrice = 0;
 
         //Get the price of each foodItem using the foodID. Append to Total.
         for(Integer foodID  : foodIDList){
@@ -96,12 +98,12 @@ public class CartActivity extends AppCompatActivity {
         }
 
         //Error handling to ensure proper total price was returned from the cart.
-        if(totalPrice<0){
+        if(totalPrice<1){
             Log.i(TAG, "getTotalPrice: Returned less than 0. Check function body. Cart may be empty.");
             totalPrice = 0;
         }
         else Log.i(TAG, "Total price of cart = " + totalPrice);
-        return totalPrice+1;
+        return totalPrice;
     }
 
     @Override
@@ -112,13 +114,36 @@ public class CartActivity extends AppCompatActivity {
             case Util.REQUEST_PAYMENT:
                 switch(resultCode){
                     case RESULT_OK:
+                        //Remove items purchased from the DB since they have been purchased
+                        for(Integer foodID : foodIDList){
+                            //Returns the number of rows deleted
+                            int rowDeleteResult = db.deleteFoodItem(foodID);
+
+                            //Log success of deletion
+                            if(rowDeleteResult>0) Log.i(TAG, "foodItem deleted. foodID: " + foodID);
+                            else Log.i(TAG, "No foodItems deleted. Provided foodID: " + foodID);
+
+                            //Return to HomeActivity whilst indicating the purchase has been completed.
+                            Intent intent = new Intent();
+                            intent.putExtra("itemPurchased", true);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+
+                        //Toast success to user and log it.
                         Toast.makeText(this, "Payment success!", Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "onActivityResult: Payment successful");
+
+                        //End the cart activity and return to HomeActivity
+                        setResult(RESULT_OK);
+                        finish();
                         break;
 
                     case RESULT_CANCELED:
                         Toast.makeText(this, "Payment cancelled", Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "onActivityResult: Payment cancelled");
+                        setResult(RESULT_OK);
+                        finish();
                         break;
 
                     case AutoResolveHelper.RESULT_ERROR:

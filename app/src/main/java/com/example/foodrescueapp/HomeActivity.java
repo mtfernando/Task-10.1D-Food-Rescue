@@ -95,31 +95,55 @@ public class HomeActivity extends AppCompatActivity {
                     break;
 
                 case Util.REQUEST_VIEW_FOOD:
-                    //TODO: Handle result from viewing food item. Result might include to add to cart.
+                    //Get the foodID
                     Integer foodIDFromResult = data.getIntExtra("foodID", -1);
+                    //True if the user used GPay to purchase in the activity without adding to cart
+                    Boolean itemPurchased = data.getBooleanExtra("itemPurchased", false);
 
-                    //If no errors in result, add to cart.
-                    if(foodIDFromResult>-1){
+                    //Remove the foodItem from DB if it has been paid for
+                    if(itemPurchased){
+                        
+                        Log.i(TAG, "GPay Successful. Deleting FoodItem from DB.");
+                        //Returns the number of rows deleted
+                        int rowDeleteResult = db.deleteFoodItem(foodIDFromResult);
 
-                        //Check if FoodID is already in the cart
-                        if(cartIDList.contains(foodIDFromResult)){
-                            Toast.makeText(this, "Item already in cart!", Toast.LENGTH_SHORT).show();
-                            Log.i(TAG, "Item already exists in cart. FoodID = " + foodIDFromResult);
-                        }
-                        //Add item to cart, if it hasn't already been added
-                        else{
-                            cartIDList.add(foodIDFromResult);
-                            Toast.makeText(this, "Item added to cart!", Toast.LENGTH_SHORT).show();
-                            Log.i(TAG, "Added to cartIDList, foodID = " + foodIDFromResult);
-                        }
+                        //Log success of deletion
+                        if(rowDeleteResult>0) Log.i(TAG, "foodItem deleted. foodID: " + foodIDFromResult);
+                        else Log.i(TAG, "No foodItems deleted. Provided foodID: " + foodIDFromResult);
 
+                        //Update recycler view
+                        setRecyclerView();
                     }
+
                     else{
-                        //If foodID is negative, which it cannot be, then Log the error and provide toast to user
-                        Toast.makeText(this, "Error! couldn't add item to cart", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG,"Item was not added to cart. Returned foodID from REQUEST_VIEW_FOOD: " + foodIDFromResult);
+                        //If no errors in result, add to cart.
+                        if(foodIDFromResult>-1){
+
+                            //Check if FoodID is already in the cart
+                            if(cartIDList.contains(foodIDFromResult)){
+                                Toast.makeText(this, "Item already in cart!", Toast.LENGTH_SHORT).show();
+                                Log.i(TAG, "Item already exists in cart. FoodID = " + foodIDFromResult);
+                            }
+                            //Add item to cart, if it hasn't already been added
+                            else{
+                                cartIDList.add(foodIDFromResult);
+                                Toast.makeText(this, "Item added to cart!", Toast.LENGTH_SHORT).show();
+                                Log.i(TAG, "Added to cartIDList, foodID = " + foodIDFromResult);
+                            }
+
+                        }
+                        else{
+                            //If foodID is negative, which it cannot be, then Log the error and provide toast to user
+                            Toast.makeText(this, "Error! couldn't add item to cart", Toast.LENGTH_SHORT).show();
+                            Log.e(TAG,"Item was not added to cart. Returned foodID from REQUEST_VIEW_FOOD: " + foodIDFromResult);
+                        }
                     }
+
                     break;
+
+                case Util.REQUEST_CART_VIEW:
+                    //Handle return from CartActivity. If purhcased update DB.
+                    if(data.getBooleanExtra("itemPurchased", false)) setRecyclerView();
             }
         }
     }
@@ -158,7 +182,8 @@ public class HomeActivity extends AppCompatActivity {
                 Intent cartIntent = new Intent(HomeActivity.this, CartActivity.class);
                 cartIntent.putIntegerArrayListExtra("foodIDList", (ArrayList<Integer>) cartIDList);
 
-                startActivity(cartIntent);
+                //Start cart activity
+                startActivityForResult(cartIntent, Util.REQUEST_CART_VIEW);
             }
         }
         return true;

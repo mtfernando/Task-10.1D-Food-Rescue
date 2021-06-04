@@ -7,22 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.icu.util.UniversalTimeScale;
-import android.net.Uri;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.foodrescueapp.model.FoodItem;
 import com.example.foodrescueapp.model.User;
 import com.example.foodrescueapp.util.Util;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
@@ -88,6 +80,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //long linkingResult = createUserFoodEntry(user, foodItem);
 
         return  result;
+    }
+
+    //Delete foodItem for a given foodID
+    public int deleteFoodItem(Integer foodID){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        //Returns the number of Rows deleted. Should be 1 at max since each foodItem has a unique foodID.
+        return db.delete(Util.FOOD_TABLE_NAME, Util.FOOD_ID + "=" + foodID, null);
     }
 
     //Returns the User object for a given username

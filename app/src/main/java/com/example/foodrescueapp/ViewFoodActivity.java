@@ -70,6 +70,7 @@ public class ViewFoodActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.putExtra("foodID", foodIDfromIntent);
+                intent.putExtra("itemPurchased", false);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -139,8 +140,24 @@ public class ViewFoodActivity extends AppCompatActivity{
             case Util.REQUEST_PAYMENT:
                 switch(resultCode){
                     case RESULT_OK:
+                        //Returns the number of rows deleted
+                        int rowDeleteResult = db.deleteFoodItem(foodIDfromIntent);
+
+                        //Log success of deletion
+                        if(rowDeleteResult>0) Log.i(TAG, "foodItem deleted. foodID: " + foodIDfromIntent);
+                        else Log.i(TAG, "No foodItems deleted. Provided foodID: " + foodIDfromIntent);
+
+                        //Toast success to user and log it.
                         Toast.makeText(this, "Payment success!", Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "onActivityResult: Payment successful");
+
+
+                        //Return to HomeActivity whilst indicating the purchase has been completed.
+                        Intent intent = new Intent();
+                        intent.putExtra("foodID", foodIDfromIntent);
+                        intent.putExtra("itemPurchased", true);
+                        setResult(RESULT_OK, intent);
+                        finish();
                         break;
 
                     case RESULT_CANCELED:
